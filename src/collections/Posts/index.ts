@@ -25,7 +25,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { includeInSitemapField } from '@/fields/includeInSitemap'
+import { extendedSeoFields } from '@/fields/seo'
 import { slugField } from 'payload'
 
 export const Posts: CollectionConfig<'posts'> = {
@@ -154,6 +154,7 @@ export const Posts: CollectionConfig<'posts'> = {
             }),
 
             MetaDescriptionField({}),
+            ...extendedSeoFields(),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -162,7 +163,6 @@ export const Posts: CollectionConfig<'posts'> = {
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
-            includeInSitemapField(),
           ],
         },
       ],

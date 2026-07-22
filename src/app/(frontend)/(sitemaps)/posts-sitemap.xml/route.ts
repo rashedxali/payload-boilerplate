@@ -3,6 +3,9 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
+import { isSitemapEnabled } from '@/utilities/buildRobotsTxt'
+import { getCachedSettings } from '@/utilities/getSettings'
+
 const getPostsSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
@@ -28,12 +31,12 @@ const getPostsSitemap = unstable_cache(
           {
             or: [
               {
-                'meta.includeInSitemap': {
-                  equals: true,
+                'meta.robots': {
+                  not_equals: 'noindex',
                 },
               },
               {
-                'meta.includeInSitemap': {
+                'meta.robots': {
                   exists: false,
                 },
               },
@@ -45,7 +48,7 @@ const getPostsSitemap = unstable_cache(
         slug: true,
         updatedAt: true,
         meta: {
-          includeInSitemap: true,
+          robots: true,
         },
       },
     })
@@ -54,7 +57,7 @@ const getPostsSitemap = unstable_cache(
 
     const sitemap = results.docs
       ? results.docs
-          .filter((post) => Boolean(post?.slug) && post.meta?.includeInSitemap !== false)
+          .filter((post) => Boolean(post?.slug) && post.meta?.robots !== 'noindex')
           .map((post) => ({
             loc: `${SITE_URL}/posts/${post?.slug}`,
             lastmod: post.updatedAt || dateFallback,
@@ -70,6 +73,12 @@ const getPostsSitemap = unstable_cache(
 )
 
 export async function GET() {
+  const settings = await getCachedSettings()
+
+  if (!isSitemapEnabled(settings)) {
+    return new Response('Not Found', { status: 404 })
+  }
+
   const sitemap = await getPostsSitemap()
 
   return getServerSideSitemap(sitemap)

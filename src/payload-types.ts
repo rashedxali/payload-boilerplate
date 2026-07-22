@@ -112,10 +112,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    settings: Setting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -169,9 +171,17 @@ export interface Page {
     image?: (number | null) | Media;
     description?: string | null;
     /**
-     * When unchecked, this document will be excluded from the sitemap.
+     * Override the canonical URL. Leave empty to use the auto-generated page URL.
      */
-    includeInSitemap?: boolean | null;
+    canonicalURL?: string | null;
+    /**
+     * Controls search engine indexing and sitemap inclusion. Noindex pages are excluded from the sitemap.
+     */
+    robots?: ('index' | 'noindex') | null;
+    /**
+     * Custom JSON-LD structured data for this page. Must be valid JSON.
+     */
+    jsonLd?: string | null;
   };
   publishedAt?: string | null;
   /**
@@ -264,9 +274,17 @@ export interface Post {
     image?: (number | null) | Media;
     description?: string | null;
     /**
-     * When unchecked, this document will be excluded from the sitemap.
+     * Override the canonical URL. Leave empty to use the auto-generated page URL.
      */
-    includeInSitemap?: boolean | null;
+    canonicalURL?: string | null;
+    /**
+     * Controls search engine indexing and sitemap inclusion. Noindex pages are excluded from the sitemap.
+     */
+    robots?: ('index' | 'noindex') | null;
+    /**
+     * Custom JSON-LD structured data for this page. Must be valid JSON.
+     */
+    jsonLd?: string | null;
   };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
@@ -1137,7 +1155,9 @@ export interface PagesSelect<T extends boolean = true> {
         title?: T;
         image?: T;
         description?: T;
-        includeInSitemap?: T;
+        canonicalURL?: T;
+        robots?: T;
+        jsonLd?: T;
       };
   publishedAt?: T;
   generateSlug?: T;
@@ -1315,7 +1335,9 @@ export interface PostsSelect<T extends boolean = true> {
         title?: T;
         image?: T;
         description?: T;
-        includeInSitemap?: T;
+        canonicalURL?: T;
+        robots?: T;
+        jsonLd?: T;
       };
   publishedAt?: T;
   authors?: T;
@@ -1802,6 +1824,133 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Branding, contact, social, integrations, form and public content API controls, legal notices, and custom HTML.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: number;
+  general?: {
+    siteName?: string | null;
+    tagline?: string | null;
+    logo?: (number | null) | Media;
+    favicon?: (number | null) | Media;
+    contactEmail?: string | null;
+    contactPhone?: string | null;
+    address?: string | null;
+    socialLinks?:
+      | {
+          platform: 'facebook' | 'instagram' | 'linkedin' | 'x' | 'youtube';
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  seo?: {
+    /**
+     * Appended to page titles when no custom SEO title is set.
+     */
+    defaultTitleSuffix?: string | null;
+    defaultMetaDescription?: string | null;
+    defaultOgImage?: (number | null) | Media;
+    /**
+     * Used for default organization schema markup.
+     */
+    organizationName?: string | null;
+    /**
+     * Primary website URL for organization schema markup.
+     */
+    organizationUrl?: string | null;
+    /**
+     * Control the public /robots.txt file for the entire site.
+     */
+    robotsTxt?: {
+      status?: ('enable' | 'disable') | null;
+      /**
+       * Optional custom robots.txt content. Leave empty to use the default rules.
+       */
+      customContent?: string | null;
+    };
+    /**
+     * Control the public /llms.txt file for LLM crawlers.
+     */
+    llmsTxt?: {
+      status?: ('enable' | 'disable') | null;
+      /**
+       * Optional custom llms.txt content. Leave empty to use a generated default.
+       */
+      customContent?: string | null;
+    };
+    /**
+     * Enable or disable public sitemap access. Sitemaps continue to generate internally.
+     */
+    sitemap?: {
+      status?: ('enable' | 'disable') | null;
+    };
+  };
+  /**
+   * Load Google Tag Manager on the public site.
+   */
+  googleTagManager?: {
+    status?: ('enable' | 'disable') | null;
+    /**
+     * Find this in Google Tag Manager under Admin → Container Settings.
+     */
+    id?: string | null;
+  };
+  /**
+   * Load GA4 directly on the public site.
+   */
+  googleAnalytics4?: {
+    status?: ('enable' | 'disable') | null;
+    /**
+     * Find this in GA4 under Admin → Data Streams.
+     */
+    id?: string | null;
+  };
+  /**
+   * Load Meta Pixel on the public site.
+   */
+  facebookPixel?: {
+    status?: ('enable' | 'disable') | null;
+    /**
+     * Find this in Meta Events Manager under your pixel settings.
+     */
+    id?: string | null;
+  };
+  /**
+   * Load Microsoft Clarity on the public site.
+   */
+  microsoftClarity?: {
+    status?: ('enable' | 'disable') | null;
+    /**
+     * Find this in Microsoft Clarity under Settings → Overview.
+     */
+    id?: string | null;
+  };
+  maintenance?: {
+    enabled?: boolean | null;
+    headline?: string | null;
+    /**
+     * Message shown to visitors while maintenance mode is active.
+     */
+    message?: string | null;
+  };
+  customCode?: {
+    /**
+     * Injected before </head> on the public site.
+     */
+    headHtml?: string | null;
+    /**
+     * Injected before </body> on the public site.
+     */
+    bodyHtml?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -1842,6 +1991,96 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  general?:
+    | T
+    | {
+        siteName?: T;
+        tagline?: T;
+        logo?: T;
+        favicon?: T;
+        contactEmail?: T;
+        contactPhone?: T;
+        address?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+      };
+  seo?:
+    | T
+    | {
+        defaultTitleSuffix?: T;
+        defaultMetaDescription?: T;
+        defaultOgImage?: T;
+        organizationName?: T;
+        organizationUrl?: T;
+        robotsTxt?:
+          | T
+          | {
+              status?: T;
+              customContent?: T;
+            };
+        llmsTxt?:
+          | T
+          | {
+              status?: T;
+              customContent?: T;
+            };
+        sitemap?:
+          | T
+          | {
+              status?: T;
+            };
+      };
+  googleTagManager?:
+    | T
+    | {
+        status?: T;
+        id?: T;
+      };
+  googleAnalytics4?:
+    | T
+    | {
+        status?: T;
+        id?: T;
+      };
+  facebookPixel?:
+    | T
+    | {
+        status?: T;
+        id?: T;
+      };
+  microsoftClarity?:
+    | T
+    | {
+        status?: T;
+        id?: T;
+      };
+  maintenance?:
+    | T
+    | {
+        enabled?: T;
+        headline?: T;
+        message?: T;
+      };
+  customCode?:
+    | T
+    | {
+        headHtml?: T;
+        bodyHtml?: T;
       };
   updatedAt?: T;
   createdAt?: T;

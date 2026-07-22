@@ -11,6 +11,7 @@ import RichText from '@/components/RichText'
 import type { Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
+import { JsonLd } from '@/components/JsonLd'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -60,6 +61,8 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
+      <JsonLd data={post.meta?.jsonLd} />
+
       <PostHero post={post} />
 
       <div className="flex flex-col items-center gap-4 pt-8">
@@ -83,7 +86,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const decodedSlug = decodeURIComponent(slug)
   const post = await queryPostBySlug({ slug: decodedSlug })
 
-  return generateMeta({ doc: post })
+  return generateMeta({ collection: 'posts', doc: post })
 }
 
 const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {

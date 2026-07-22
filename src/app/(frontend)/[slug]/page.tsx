@@ -7,6 +7,7 @@ import { cache } from 'react'
 import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { JsonLd } from '@/components/JsonLd'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -62,7 +63,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const {  layout } = page
+  const { layout, meta } = page
 
   return (
     <>
@@ -70,6 +71,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
+      <JsonLd data={meta?.jsonLd} />
       <RenderBlocks blocks={layout} />
     </>
   )
@@ -83,7 +85,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     slug: decodedSlug,
   })
 
-  return generateMeta({ doc: page })
+  return generateMeta({ collection: 'pages', doc: page })
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {

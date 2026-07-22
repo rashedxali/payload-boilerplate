@@ -11,16 +11,22 @@ import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
 import { Page, Post } from '@/payload-types'
+import { getDocumentURL } from '@/utilities/getDocumentURL'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
-  const url = getServerSideURL()
+const generateURL: GenerateURL<Post | Page> = ({ collectionConfig, doc }) => {
+  const collection = collectionConfig?.slug === 'posts' ? 'posts' : 'pages'
+  const slug = typeof doc?.slug === 'string' ? doc.slug : null
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  if (doc?.meta?.canonicalURL) {
+    return doc.meta.canonicalURL
+  }
+
+  return slug ? getDocumentURL(slug, collection) : getServerSideURL()
 }
 
 export const plugins: Plugin[] = [

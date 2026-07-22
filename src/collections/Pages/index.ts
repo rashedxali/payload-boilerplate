@@ -10,7 +10,7 @@ import { FAQ } from '../../blocks/FAQ/config'
 import { Hero } from '../../blocks/Hero/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { includeInSitemapField } from '@/fields/includeInSitemap'
+import { extendedSeoFields } from '@/fields/seo'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -97,6 +97,7 @@ export const Pages: CollectionConfig<'pages'> = {
             }),
 
             MetaDescriptionField({}),
+            ...extendedSeoFields(),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -105,7 +106,6 @@ export const Pages: CollectionConfig<'pages'> = {
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
-            includeInSitemapField(),
           ],
         },
       ],
