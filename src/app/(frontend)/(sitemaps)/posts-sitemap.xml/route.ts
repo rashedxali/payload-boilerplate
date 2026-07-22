@@ -19,13 +19,34 @@ const getPostsSitemap = unstable_cache(
       limit: 1000,
       pagination: false,
       where: {
-        _status: {
-          equals: 'published',
-        },
+        and: [
+          {
+            _status: {
+              equals: 'published',
+            },
+          },
+          {
+            or: [
+              {
+                'meta.includeInSitemap': {
+                  equals: true,
+                },
+              },
+              {
+                'meta.includeInSitemap': {
+                  exists: false,
+                },
+              },
+            ],
+          },
+        ],
       },
       select: {
         slug: true,
         updatedAt: true,
+        meta: {
+          includeInSitemap: true,
+        },
       },
     })
 
@@ -33,7 +54,7 @@ const getPostsSitemap = unstable_cache(
 
     const sitemap = results.docs
       ? results.docs
-          .filter((post) => Boolean(post?.slug))
+          .filter((post) => Boolean(post?.slug) && post.meta?.includeInSitemap !== false)
           .map((post) => ({
             loc: `${SITE_URL}/posts/${post?.slug}`,
             lastmod: post.updatedAt || dateFallback,

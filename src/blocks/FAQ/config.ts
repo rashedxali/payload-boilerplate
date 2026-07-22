@@ -1,0 +1,50 @@
+import type { Block } from 'payload'
+
+export const FAQ: Block = {
+  slug: 'faq',
+  interfaceName: 'FAQBlock',
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'button',
+      type: 'group',
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'link',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'faqs',
+      type: 'array',
+      required: true,
+      minRows: 1,
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'question',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'answer',
+          type: 'richText',
+          required: true,
+        },
+      ],
+    },
+  ],
+}

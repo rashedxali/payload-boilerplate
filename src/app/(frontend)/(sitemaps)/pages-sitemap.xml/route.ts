@@ -19,13 +19,34 @@ const getPagesSitemap = unstable_cache(
       limit: 1000,
       pagination: false,
       where: {
-        _status: {
-          equals: 'published',
-        },
+        and: [
+          {
+            _status: {
+              equals: 'published',
+            },
+          },
+          {
+            or: [
+              {
+                'meta.includeInSitemap': {
+                  equals: true,
+                },
+              },
+              {
+                'meta.includeInSitemap': {
+                  exists: false,
+                },
+              },
+            ],
+          },
+        ],
       },
       select: {
         slug: true,
         updatedAt: true,
+        meta: {
+          includeInSitemap: true,
+        },
       },
     })
 
@@ -44,7 +65,7 @@ const getPagesSitemap = unstable_cache(
 
     const sitemap = results.docs
       ? results.docs
-          .filter((page) => Boolean(page?.slug))
+          .filter((page) => Boolean(page?.slug) && page.meta?.includeInSitemap !== false)
           .map((page) => {
             return {
               loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
