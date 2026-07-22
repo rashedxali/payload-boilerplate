@@ -149,7 +149,7 @@ export const Settings: GlobalConfig = {
                   label: 'Sitemap',
                   admin: {
                     description:
-                      'Enable or disable public sitemap access. Sitemaps continue to generate internally.',
+                      'Enable or disable public sitemap access at /sitemap.xml. Child sitemaps such as pages-sitemap.xml and posts-sitemap.xml continue to generate internally.',
                   },
                   fields: [
                     {

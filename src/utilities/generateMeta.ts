@@ -1,24 +1,11 @@
 import type { Metadata } from 'next'
 
-import type { Media, Page, Post, Config } from '../payload-types'
+import type { Page, Post } from '../payload-types'
 
 import { getDocumentURL } from './getDocumentURL'
+import { getImageURL } from './getImageURL'
 import { mergeOpenGraph } from './mergeOpenGraph'
-import { getServerSideURL } from './getURL'
-
-const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
-  const serverUrl = getServerSideURL()
-
-  let url = serverUrl + '/website-template-OG.webp'
-
-  if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.sizes?.og?.url
-
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
-  }
-
-  return url
-}
+import { resolveOpenGraphMeta, resolveTwitterMeta } from './resolveSocialMeta'
 
 type SeoDoc = Partial<Page> | Partial<Post> | null
 
@@ -28,7 +15,11 @@ export const generateMeta = async (args: {
 }): Promise<Metadata> => {
   const { collection = 'pages', doc } = args
 
-  const ogImage = getImageURL(doc?.meta?.image)
+  const openGraph = resolveOpenGraphMeta(doc)
+  const twitter = resolveTwitterMeta(doc)
+  const ogImage = getImageURL(openGraph.image)
+  const twitterImage = getImageURL(twitter.image)
+
   const pageTitle = doc?.meta?.title || doc?.title
   const title = pageTitle ? `${pageTitle} | Payload Website Template` : 'Payload Website Template'
   const canonicalURL =
@@ -41,7 +32,7 @@ export const generateMeta = async (args: {
     },
     description: doc?.meta?.description,
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
+      description: openGraph.description || doc?.meta?.description || '',
       images: ogImage
         ? [
             {
@@ -49,7 +40,7 @@ export const generateMeta = async (args: {
             },
           ]
         : undefined,
-      title,
+      title: openGraph.title || title,
       url: canonicalURL,
     }),
     robots: isNoIndex
@@ -62,5 +53,11 @@ export const generateMeta = async (args: {
           index: true,
         },
     title,
+    twitter: {
+      card: 'summary_large_image',
+      description: twitter.description || openGraph.description || doc?.meta?.description || '',
+      images: twitterImage ? [twitterImage] : undefined,
+      title: twitter.title || openGraph.title || title,
+    },
   }
 }

@@ -23,7 +23,6 @@ import {
   MetaImageField,
   MetaTitleField,
   OverviewField,
-  PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { extendedSeoFields } from '@/fields/seo'
 import { slugField } from 'payload'
@@ -155,14 +154,6 @@ export const Posts: CollectionConfig<'posts'> = {
 
             MetaDescriptionField({}),
             ...extendedSeoFields(),
-            PreviewField({
-              // if the `generateUrl` function is configured
-              hasGenerateFn: true,
-
-              // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-            }),
           ],
         },
       ],

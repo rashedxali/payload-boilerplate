@@ -171,7 +171,7 @@ export interface Page {
     image?: (number | null) | Media;
     description?: string | null;
     /**
-     * Override the canonical URL. Leave empty to use the auto-generated page URL.
+     * Leave empty to use the current content URL automatically.
      */
     canonicalURL?: string | null;
     /**
@@ -182,6 +182,39 @@ export interface Page {
      * Custom JSON-LD structured data for this page. Must be valid JSON.
      */
     jsonLd?: string | null;
+    /**
+     * Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title, description, and image.
+     */
+    social?: {
+      openGraph?: {
+        /**
+         * Optional. Falls back to the SEO title when empty.
+         */
+        title?: string | null;
+        /**
+         * Optional. Falls back to the SEO description when empty.
+         */
+        description?: string | null;
+        /**
+         * Recommended size: 1200 x 630. Falls back to the SEO image when empty.
+         */
+        image?: (number | null) | Media;
+      };
+      twitter?: {
+        /**
+         * Optional. Falls back to the SEO title when empty.
+         */
+        title?: string | null;
+        /**
+         * Optional. Falls back to the SEO description when empty.
+         */
+        description?: string | null;
+        /**
+         * Recommended size: 1200 x 630. Falls back to Open Graph image, then SEO image.
+         */
+        image?: (number | null) | Media;
+      };
+    };
   };
   publishedAt?: string | null;
   /**
@@ -274,7 +307,7 @@ export interface Post {
     image?: (number | null) | Media;
     description?: string | null;
     /**
-     * Override the canonical URL. Leave empty to use the auto-generated page URL.
+     * Leave empty to use the current content URL automatically.
      */
     canonicalURL?: string | null;
     /**
@@ -285,6 +318,39 @@ export interface Post {
      * Custom JSON-LD structured data for this page. Must be valid JSON.
      */
     jsonLd?: string | null;
+    /**
+     * Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title, description, and image.
+     */
+    social?: {
+      openGraph?: {
+        /**
+         * Optional. Falls back to the SEO title when empty.
+         */
+        title?: string | null;
+        /**
+         * Optional. Falls back to the SEO description when empty.
+         */
+        description?: string | null;
+        /**
+         * Recommended size: 1200 x 630. Falls back to the SEO image when empty.
+         */
+        image?: (number | null) | Media;
+      };
+      twitter?: {
+        /**
+         * Optional. Falls back to the SEO title when empty.
+         */
+        title?: string | null;
+        /**
+         * Optional. Falls back to the SEO description when empty.
+         */
+        description?: string | null;
+        /**
+         * Recommended size: 1200 x 630. Falls back to Open Graph image, then SEO image.
+         */
+        image?: (number | null) | Media;
+      };
+    };
   };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
@@ -1158,6 +1224,24 @@ export interface PagesSelect<T extends boolean = true> {
         canonicalURL?: T;
         robots?: T;
         jsonLd?: T;
+        social?:
+          | T
+          | {
+              openGraph?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                  };
+              twitter?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                  };
+            };
       };
   publishedAt?: T;
   generateSlug?: T;
@@ -1338,6 +1422,24 @@ export interface PostsSelect<T extends boolean = true> {
         canonicalURL?: T;
         robots?: T;
         jsonLd?: T;
+        social?:
+          | T
+          | {
+              openGraph?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                  };
+              twitter?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                  };
+            };
       };
   publishedAt?: T;
   authors?: T;
@@ -1883,7 +1985,7 @@ export interface Setting {
       customContent?: string | null;
     };
     /**
-     * Enable or disable public sitemap access. Sitemaps continue to generate internally.
+     * Enable or disable public sitemap access at /sitemap.xml. Child sitemaps such as pages-sitemap.xml and posts-sitemap.xml continue to generate internally.
      */
     sitemap?: {
       status?: ('enable' | 'disable') | null;

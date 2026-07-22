@@ -1,5 +1,7 @@
 import type { Setting } from '@/payload-types'
 
+import { getPrimarySitemapUrl } from '@/sitemap/registry'
+
 import { getServerSideURL } from './getURL'
 
 type SeoSettings = NonNullable<Setting['seo']>
@@ -27,7 +29,7 @@ export function buildRobotsTxt(settings: Setting): string {
   const lines = ['User-agent: *', 'Disallow: /admin/']
 
   if (isSitemapEnabled(settings)) {
-    lines.push('', `Sitemap: ${siteURL}/pages-sitemap.xml`, `Sitemap: ${siteURL}/posts-sitemap.xml`)
+    lines.push('', `Sitemap: ${getPrimarySitemapUrl()}`)
   }
 
   return lines.join('\n')
@@ -51,7 +53,7 @@ export function buildLlmsTxt(settings: Setting): string {
   }
 
   if (isSitemapEnabled(settings)) {
-    lines.push('', `Sitemap: ${siteURL}/pages-sitemap.xml`, `Sitemap: ${siteURL}/posts-sitemap.xml`)
+    lines.push('', `Sitemap: ${getPrimarySitemapUrl()}`)
   }
 
   return lines.join('\n')

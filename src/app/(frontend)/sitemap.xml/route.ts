@@ -1,6 +1,6 @@
-import { getServerSideSitemap } from 'next-sitemap'
+import { getServerSideSitemapIndex } from 'next-sitemap'
 
-import { getPagesSitemapEntries } from '@/sitemap/queries'
+import { getSitemapIndexUrls } from '@/sitemap/registry'
 import { getSitemapSettingsResponse } from '@/sitemap/shared'
 
 export async function GET() {
@@ -10,7 +10,5 @@ export async function GET() {
     return disabledResponse
   }
 
-  const sitemap = await getPagesSitemapEntries()
-
-  return getServerSideSitemap(sitemap)
+  return getServerSideSitemapIndex(getSitemapIndexUrls())
 }

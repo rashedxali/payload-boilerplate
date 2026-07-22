@@ -5,7 +5,10 @@ export const canonicalUrlField = (): TextField => ({
   type: 'text',
   label: 'Canonical URL',
   admin: {
-    description: 'Override the canonical URL. Leave empty to use the auto-generated page URL.',
+    components: {
+      Field: '@/fields/seo/CanonicalUrlField#CanonicalUrlField',
+    },
+    description: 'Leave empty to use the current content URL automatically.',
   },
   validate: (value) => {
     if (!value) return true
