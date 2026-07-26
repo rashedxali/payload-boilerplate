@@ -7,6 +7,9 @@ export const Hero: Block = {
     plural: 'Hero Blocks',
     singular: 'Hero Block',
   },
+  admin: {
+    disableBlockName: true, 
+  },
   fields: [
     {
       name: 'headline',

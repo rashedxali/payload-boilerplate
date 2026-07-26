@@ -25,8 +25,8 @@ const socialPlatformFields = (platform: 'Open Graph' | 'Twitter Card'): Field[] 
     admin: {
       description:
         platform === 'Open Graph'
-          ? 'Recommended size: 1200 x 630. Falls back to the SEO image when empty.'
-          : 'Recommended size: 1200 x 630. Falls back to Open Graph image, then SEO image.',
+          ? 'Recommended size: 1200 x 630.'
+          : 'Recommended size: 1200 x 630. Falls back to Open Graph image when empty.',
     },
   },
 ]
@@ -37,7 +37,7 @@ export const socialSharingFields = (): Field => ({
   label: 'Social sharing',
   admin: {
     description:
-      'Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title, description, and image.',
+      'Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title and description.',
   },
   fields: [
     {

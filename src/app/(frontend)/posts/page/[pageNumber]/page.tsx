@@ -5,9 +5,9 @@ import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { formatPageTitle, getSeoDefaults } from '@/utilities/getSeoDefaults'
 
 export const revalidate = 600
 
@@ -64,8 +64,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
+  const seoDefaults = await getSeoDefaults()
+
   return {
-    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
+    title: formatPageTitle(`Posts Page ${pageNumber || ''}`.trim(), seoDefaults),
   }
 }
 

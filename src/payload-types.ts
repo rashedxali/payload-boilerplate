@@ -165,10 +165,6 @@ export interface Page {
   )[];
   meta?: {
     title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
     description?: string | null;
     /**
      * Leave empty to use the current content URL automatically.
@@ -183,7 +179,7 @@ export interface Page {
      */
     jsonLd?: string | null;
     /**
-     * Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title, description, and image.
+     * Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title and description.
      */
     social?: {
       openGraph?: {
@@ -196,7 +192,7 @@ export interface Page {
          */
         description?: string | null;
         /**
-         * Recommended size: 1200 x 630. Falls back to the SEO image when empty.
+         * Recommended size: 1200 x 630.
          */
         image?: (number | null) | Media;
       };
@@ -210,7 +206,7 @@ export interface Page {
          */
         description?: string | null;
         /**
-         * Recommended size: 1200 x 630. Falls back to Open Graph image, then SEO image.
+         * Recommended size: 1200 x 630. Falls back to Open Graph image when empty.
          */
         image?: (number | null) | Media;
       };
@@ -301,10 +297,6 @@ export interface Post {
   categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
     description?: string | null;
     /**
      * Leave empty to use the current content URL automatically.
@@ -319,7 +311,7 @@ export interface Post {
      */
     jsonLd?: string | null;
     /**
-     * Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title, description, and image.
+     * Per-page Open Graph and Twitter overrides. Leave fields empty to inherit SEO title and description.
      */
     social?: {
       openGraph?: {
@@ -332,7 +324,7 @@ export interface Post {
          */
         description?: string | null;
         /**
-         * Recommended size: 1200 x 630. Falls back to the SEO image when empty.
+         * Recommended size: 1200 x 630.
          */
         image?: (number | null) | Media;
       };
@@ -346,7 +338,7 @@ export interface Post {
          */
         description?: string | null;
         /**
-         * Recommended size: 1200 x 630. Falls back to Open Graph image, then SEO image.
+         * Recommended size: 1200 x 630. Falls back to Open Graph image when empty.
          */
         image?: (number | null) | Media;
       };
@@ -1219,7 +1211,6 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
         canonicalURL?: T;
         robots?: T;
@@ -1417,7 +1408,6 @@ export interface PostsSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
         canonicalURL?: T;
         robots?: T;

@@ -20,7 +20,6 @@ import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
 import {
   MetaDescriptionField,
-  MetaImageField,
   MetaTitleField,
   OverviewField,
 } from '@payloadcms/plugin-seo/fields'
@@ -43,7 +42,6 @@ export const Posts: CollectionConfig<'posts'> = {
     slug: true,
     categories: true,
     meta: {
-      image: true,
       description: true,
     },
   },
@@ -143,13 +141,9 @@ export const Posts: CollectionConfig<'posts'> = {
             OverviewField({
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
             }),
             MetaTitleField({
               hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
             }),
 
             MetaDescriptionField({}),

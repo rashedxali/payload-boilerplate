@@ -12,7 +12,7 @@ export function resolveOpenGraphMeta(doc: SeoDoc): ResolvedSocialMeta {
   return {
     title: doc?.meta?.social?.openGraph?.title || doc?.meta?.title || doc?.title || '',
     description: doc?.meta?.social?.openGraph?.description || doc?.meta?.description || '',
-    image: doc?.meta?.social?.openGraph?.image || doc?.meta?.image,
+    image: doc?.meta?.social?.openGraph?.image,
   }
 }
 
@@ -22,6 +22,6 @@ export function resolveTwitterMeta(doc: SeoDoc): ResolvedSocialMeta {
   return {
     title: doc?.meta?.social?.twitter?.title || openGraph.title,
     description: doc?.meta?.social?.twitter?.description || openGraph.description,
-    image: doc?.meta?.social?.twitter?.image || doc?.meta?.social?.openGraph?.image || doc?.meta?.image,
+    image: doc?.meta?.social?.twitter?.image || doc?.meta?.social?.openGraph?.image,
   }
 }

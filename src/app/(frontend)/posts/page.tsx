@@ -5,8 +5,8 @@ import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
 import PageClient from './page.client'
+import { formatPageTitle, getSeoDefaults } from '@/utilities/getSeoDefaults'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -23,6 +23,7 @@ export default async function Page() {
       title: true,
       slug: true,
       categories: true,
+      heroImage: true,
       meta: true,
     },
   })
@@ -56,8 +57,10 @@ export default async function Page() {
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const seoDefaults = await getSeoDefaults()
+
   return {
-    title: `Payload Website Template Posts`,
+    title: formatPageTitle('Posts', seoDefaults),
   }
 }

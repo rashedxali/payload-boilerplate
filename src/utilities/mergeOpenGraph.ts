@@ -1,19 +1,26 @@
 import type { Metadata } from 'next'
+
+import type { SeoDefaults } from './getSeoDefaults'
 import { getServerSideURL } from './getURL'
 
-const defaultOpenGraph: Metadata['openGraph'] = {
+export const createDefaultOpenGraph = (defaults?: SeoDefaults): Metadata['openGraph'] => ({
   type: 'website',
-  description: 'An open-source website built with Payload and Next.js.',
+  description: defaults?.defaultDescription || 'An open-source website built with Payload and Next.js.',
   images: [
     {
-      url: `${getServerSideURL()}/website-template-OG.webp`,
+      url: defaults?.defaultOgImageUrl || `${getServerSideURL()}/website-template-OG.webp`,
     },
   ],
-  siteName: 'Payload Website Template',
-  title: 'Payload Website Template',
-}
+  siteName: defaults?.siteName || 'Payload Website Template',
+  title: defaults?.siteName || 'Payload Website Template',
+})
 
-export const mergeOpenGraph = (og?: Metadata['openGraph']): Metadata['openGraph'] => {
+export const mergeOpenGraph = (
+  og?: Metadata['openGraph'],
+  defaults?: SeoDefaults,
+): Metadata['openGraph'] => {
+  const defaultOpenGraph = createDefaultOpenGraph(defaults) ?? {}
+
   return {
     ...defaultOpenGraph,
     ...og,

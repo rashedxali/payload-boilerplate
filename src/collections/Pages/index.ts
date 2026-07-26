@@ -18,7 +18,6 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
 import {
   MetaDescriptionField,
-  MetaImageField,
   MetaTitleField,
   OverviewField,
 } from '@payloadcms/plugin-seo/fields'
@@ -86,13 +85,9 @@ export const Pages: CollectionConfig<'pages'> = {
             OverviewField({
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
             }),
             MetaTitleField({
               hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
             }),
 
             MetaDescriptionField({}),

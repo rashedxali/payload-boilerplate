@@ -54,7 +54,6 @@ export const SeoPreviewField: React.FC<UIFieldClientProps> = () => {
 
   const metaTitle = getFieldValue(fields, 'meta.title')
   const metaDescription = getFieldValue(fields, 'meta.description')
-  const metaImage = getFieldValue(fields, 'meta.image')
   const ogTitle = getFieldValue(fields, 'meta.social.openGraph.title')
   const ogDescription = getFieldValue(fields, 'meta.social.openGraph.description')
   const ogImage = getFieldValue(fields, 'meta.social.openGraph.image')
@@ -62,7 +61,6 @@ export const SeoPreviewField: React.FC<UIFieldClientProps> = () => {
 
   const formData = getData() as {
     meta?: {
-      image?: unknown
       social?: {
         openGraph?: {
           image?: unknown
@@ -76,7 +74,6 @@ export const SeoPreviewField: React.FC<UIFieldClientProps> = () => {
 
   const initialData = docInfo.initialData as {
     meta?: {
-      image?: unknown
       social?: {
         openGraph?: {
           image?: unknown
@@ -96,18 +93,12 @@ export const SeoPreviewField: React.FC<UIFieldClientProps> = () => {
       twitterImage,
       formData?.meta?.social?.twitter?.image,
       initialData?.meta?.social?.twitter?.image,
-      metaImage,
-      formData?.meta?.image,
-      initialData?.meta?.image,
     ],
     [
-      formData?.meta?.image,
       formData?.meta?.social?.openGraph?.image,
       formData?.meta?.social?.twitter?.image,
-      initialData?.meta?.image,
       initialData?.meta?.social?.openGraph?.image,
       initialData?.meta?.social?.twitter?.image,
-      metaImage,
       ogImage,
       twitterImage,
     ],

@@ -3,6 +3,9 @@ import type { Block } from 'payload'
 export const FAQ: Block = {
   slug: 'faq',
   interfaceName: 'FAQBlock',
+  admin: {
+    disableBlockName: true, 
+  },
   fields: [
     {
       name: 'heading',

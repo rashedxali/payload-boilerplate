@@ -13,6 +13,9 @@ export const AgencyIntro: Block = {
     plural: 'Agency Intro Blocks',
     singular: 'Agency Intro Block',
   },
+  admin: {
+    disableBlockName: true, 
+  },
   fields: [
     {
       name: 'heading',

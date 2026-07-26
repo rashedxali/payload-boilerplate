@@ -3,10 +3,10 @@ import type { Metadata } from 'next/types'
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
+import { formatPageTitle, getSeoDefaults } from '@/utilities/getSeoDefaults'
 
 type Args = {
   searchParams: Promise<{
@@ -25,6 +25,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       title: true,
       slug: true,
       categories: true,
+      heroImage: true,
       meta: true,
     },
     // pagination: false reduces overhead if you don't need totalDocs
@@ -81,8 +82,10 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const seoDefaults = await getSeoDefaults()
+
   return {
-    title: `Payload Website Template Search`,
+    title: formatPageTitle('Search', seoDefaults),
   }
 }

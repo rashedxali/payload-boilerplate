@@ -9,7 +9,7 @@ export async function getSettings(): Promise<Setting> {
 
   return payload.findGlobal({
     slug: 'settings',
-    depth: 0,
+    depth: 1,
   })
 }
 
