@@ -1,0 +1,39 @@
+import type { Block } from 'payload'
+
+import { htmlField, optionalText, optionalUpload } from '@/blocks/shared/fields'
+
+export const CaseDetails: Block = {
+  slug: 'caseDetails',
+  interfaceName: 'CaseDetailsBlock',
+  labels: { singular: 'Case Details', plural: 'Case Details' },
+  fields: [
+    optionalUpload('bannerImage', 'Banner Image'),
+    optionalText('subtitle', 'Subtitle'),
+    htmlField('description', 'Description'),
+    {
+      name: 'gallery',
+      type: 'array',
+      fields: [optionalUpload('image', 'Image')],
+    },
+    {
+      name: 'project',
+      type: 'array',
+      fields: [
+        optionalText('count', 'Count'),
+        optionalText('prefix', 'Prefix'),
+        optionalText('title', 'Title'),
+      ],
+    },
+    optionalUpload('fullWidthImageTwo', 'Full Width Image'),
+    { name: 'youtubeVideoLink', type: 'text', label: 'YouTube Video URL' },
+    {
+      name: 'galleryTwo',
+      type: 'array',
+      fields: [
+        optionalUpload('image', 'Image'),
+        optionalText('description', 'Description', true),
+      ],
+    },
+    htmlField('descriptionTwo', 'Description Two'),
+  ],
+}

@@ -296,7 +296,8 @@ export interface HomeHeroBlock {
   description?: string | null;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   bannerVideo?: string | null;
   bannerImage?: (number | null) | Media;
@@ -451,7 +452,8 @@ export interface ProjectAccordionBlock {
         projectImage?: (number | null) | Media;
         button?: {
           text?: string | null;
-          url?: string | null;
+          href?: string | null;
+          target?: ('_self' | '_blank') | null;
         };
         id?: string | null;
       }[]
@@ -490,7 +492,8 @@ export interface ServiceGridBlock {
   customClass?: string | null;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   items?:
     | {
@@ -579,7 +582,8 @@ export interface TestimonialsBlockBlock {
   customClass?: string | null;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   items?:
     | {
@@ -620,7 +624,8 @@ export interface LevelUpCTABlock {
   description?: string | null;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   image?: (number | null) | Media;
   id?: string | null;
@@ -811,7 +816,8 @@ export interface BrandsBlockBlock {
   customClass?: string | null;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   items?:
     | {
@@ -989,7 +995,8 @@ export interface JoinOurTeamBlock {
   imageTwo?: (number | null) | Media;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1041,7 +1048,8 @@ export interface CaseSummaryBlock {
   description?: string | null;
   button?: {
     text?: string | null;
-    url?: string | null;
+    href?: string | null;
+    target?: ('_self' | '_blank') | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1167,7 +1175,8 @@ export interface LifeAtNHBlock {
         image?: (number | null) | Media;
         button?: {
           text?: string | null;
-          url?: string | null;
+          href?: string | null;
+          target?: ('_self' | '_blank') | null;
         };
         id?: string | null;
       }[]
@@ -2082,7 +2091,8 @@ export interface HomeHeroBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   bannerVideo?: T;
   bannerImage?: T;
@@ -2120,7 +2130,8 @@ export interface ProjectAccordionBlockSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              url?: T;
+              href?: T;
+              target?: T;
             };
         id?: T;
       };
@@ -2158,7 +2169,8 @@ export interface ServiceGridBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   items?:
     | T
@@ -2245,7 +2257,8 @@ export interface TestimonialsBlockBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   items?:
     | T
@@ -2286,7 +2299,8 @@ export interface LevelUpCTABlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   image?: T;
   id?: T;
@@ -2343,7 +2357,8 @@ export interface BrandsBlockBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   items?:
     | T
@@ -2510,7 +2525,8 @@ export interface JoinOurTeamBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   id?: T;
   blockName?: T;
@@ -2560,7 +2576,8 @@ export interface CaseSummaryBlockSelect<T extends boolean = true> {
     | T
     | {
         text?: T;
-        url?: T;
+        href?: T;
+        target?: T;
       };
   id?: T;
   blockName?: T;
@@ -2675,7 +2692,8 @@ export interface LifeAtNHBlockSelect<T extends boolean = true> {
           | T
           | {
               text?: T;
-              url?: T;
+              href?: T;
+              target?: T;
             };
         id?: T;
       };

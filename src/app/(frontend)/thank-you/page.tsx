@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { FadeIn } from '@/components/FadeIn'
-import { NHButton } from '@/blocks/notionhive/components/shared'
+import { NHButton } from '@/blocks/shared/ui'
 
 export const metadata: Metadata = {
   title: 'Thank You',
