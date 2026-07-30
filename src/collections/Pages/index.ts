@@ -2,14 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { AgencyIntro } from '../../blocks/AgencyIntro/config'
-import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { Content } from '../../blocks/Content/config'
-import { FAQ } from '../../blocks/FAQ/config'
-import { Hero } from '../../blocks/Hero/config'
-import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { layoutBlocks } from '../../blocks/layoutBlocks'
 import { extendedSeoFields } from '@/fields/seo'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -69,10 +62,17 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, FAQ, Hero, AgencyIntro],
-              required: true,
+              blocks: layoutBlocks,
               admin: {
                 initCollapsed: true,
+              },
+            },
+            {
+              name: 'body',
+              type: 'richText',
+              label: 'Body (for legal/text pages)',
+              admin: {
+                description: 'Optional rich text content. Used for pages without block layouts.',
               },
             },
           ],

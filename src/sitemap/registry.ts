@@ -16,7 +16,7 @@ export const sitemapResources = [
   {
     slug: 'posts',
     path: '/posts-sitemap.xml',
-    title: 'Posts',
+    title: 'Blogs',
   },
 ] as const satisfies readonly SitemapResource[]
 

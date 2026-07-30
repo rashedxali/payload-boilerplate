@@ -1,3 +1,5 @@
+import type { Where } from 'payload'
+
 import { getCachedSettings } from '@/utilities/getSettings'
 import { isSitemapEnabled } from '@/utilities/buildRobotsTxt'
 
@@ -19,7 +21,7 @@ export function getSiteURL(): string {
   )
 }
 
-export const indexableRobotsWhere = {
+export const indexableRobotsWhere: Where = {
   or: [
     {
       'meta.robots': {
@@ -32,4 +34,4 @@ export const indexableRobotsWhere = {
       },
     },
   ],
-} as const
+}

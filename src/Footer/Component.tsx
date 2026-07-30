@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { CMSLink } from '@/components/Link'
+import { FooterNewsletter } from '@/components/FooterNewsletter'
 import { Logo } from '@/components/Logo/Logo'
 
 export async function Footer() {
@@ -16,6 +17,11 @@ export async function Footer() {
         <Link className="flex items-center" href="/">
           <Logo />
         </Link>
+
+        <div className="flex flex-col gap-6">
+          <p className="text-sm text-white/70">Subscribe to our newsletter</p>
+          <FooterNewsletter />
+        </div>
 
         <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
           <nav className="flex flex-col md:flex-row gap-4">

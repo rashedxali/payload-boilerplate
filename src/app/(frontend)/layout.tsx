@@ -2,8 +2,15 @@ import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
+import { DM_Sans } from 'next/font/google'
 import React from 'react'
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  variable: '--font-dm-sans',
+})
 
 import { AdminBar } from '@/components/AdminBar'
 import { Analytics } from '@/components/Analytics'
@@ -32,7 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable)}
+      className={cn(dmSans.variable, GeistMono.variable)}
       data-theme="light"
       lang="en"
       suppressHydrationWarning

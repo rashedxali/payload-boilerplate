@@ -1,6 +1,6 @@
-import type { Media, Page, Post } from '@/payload-types'
+import type { Blog, Media, Page } from '@/payload-types'
 
-type SeoDoc = Partial<Page> | Partial<Post> | null
+type SeoDoc = Partial<Page> | Partial<Blog> | null
 
 export type ResolvedSocialMeta = {
   description: string

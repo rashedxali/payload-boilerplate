@@ -44,7 +44,15 @@
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
   --font-mono: var(--font-geist-mono);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+
+  /* Notionhive brand tokens (from nh-canada-front SCSS) */
+  --color-nh-black: #000000;
+  --color-nh-white: #ffffff;
+  --color-nh-blue: #1158e5;
+  --color-nh-gray: #f2f2f2;
+  --color-nh-gray-dark: #4d4d4d;
+  --color-nh-blue-light: #f0f6ff;
 }
 
 @layer utilities {
@@ -210,7 +218,45 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    @apply bg-background text-foreground min-h-[100vh] flex flex-col font-sans text-base leading-relaxed;
+    color: rgb(0 0 0 / 0.8);
+  }
+
+  h1 {
+    @apply text-5xl font-medium tracking-tight mb-4 max-sm:text-4xl max-sm:mb-2.5;
+    line-height: 1.4;
+  }
+
+  h2 {
+    @apply text-4xl font-normal tracking-tight max-sm:text-[2rem];
+    line-height: 1.4;
+  }
+
+  h3 {
+    @apply text-2xl font-normal tracking-tight;
+    line-height: 1.4;
+  }
+
+  p {
+    @apply mb-5;
+  }
+}
+
+@layer components {
+  .nh-section {
+    @apply py-16 md:py-24;
+  }
+
+  .nh-section-title {
+    @apply text-4xl font-normal tracking-tight mb-6 max-sm:text-[2rem];
+  }
+
+  .nh-btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-nh-blue px-6 py-3 text-sm font-medium text-white transition hover:bg-nh-blue/90;
+  }
+
+  .nh-btn-outline {
+    @apply inline-flex items-center justify-center rounded-full border border-nh-blue px-6 py-3 text-sm font-medium text-nh-blue transition hover:bg-nh-blue-light;
   }
 }
 

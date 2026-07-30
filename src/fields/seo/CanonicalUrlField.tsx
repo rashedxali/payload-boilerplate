@@ -19,7 +19,7 @@ export const CanonicalUrlField: React.FC<TextFieldClientProps> = ({ field, path,
   const [fields] = useAllFormFields()
 
   const slug = typeof fields.slug?.value === 'string' ? fields.slug.value : null
-  const collection = docInfo.collectionSlug === 'posts' ? 'posts' : 'pages'
+  const collection = docInfo.collectionSlug === 'blogs' ? 'blogs' : 'pages'
 
   const defaultUrl = useMemo(
     () => getDocumentURL(slug, collection),

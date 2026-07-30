@@ -50,7 +50,7 @@ export const SeoPreviewField: React.FC<UIFieldClientProps> = () => {
   const slug = typeof fields.slug?.value === 'string' ? fields.slug.value : null
   const canonicalOverride =
     typeof fields['meta.canonicalURL']?.value === 'string' ? fields['meta.canonicalURL'].value : ''
-  const collection = docInfo.collectionSlug === 'posts' ? 'posts' : 'pages'
+  const collection = docInfo.collectionSlug === 'blogs' ? 'blogs' : 'pages'
 
   const metaTitle = getFieldValue(fields, 'meta.title')
   const metaDescription = getFieldValue(fields, 'meta.description')
@@ -184,7 +184,7 @@ export const SeoPreviewField: React.FC<UIFieldClientProps> = () => {
     <div style={{ marginBottom: '20px' }}>
       <div>Search result preview</div>
       <div style={{ color: '#9A9A9A', marginBottom: '12px' }}>
-        {t('plugin-seo:previewDescription')}
+        {t('plugin-seo:previewDescription' as never)}
       </div>
 
       <div

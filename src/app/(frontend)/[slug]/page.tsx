@@ -4,9 +4,9 @@ import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import RichText from '@/components/RichText'
 import { JsonLd } from '@/components/JsonLd'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
@@ -54,16 +54,11 @@ export default async function Page({ params: paramsPromise }: Args) {
     slug: decodedSlug,
   })
 
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
-  }
-
   if (!page) {
     return <PayloadRedirects url={url} />
   }
 
-  const { layout, meta } = page
+  const { layout, meta, body } = page
 
   return (
     <>
@@ -72,7 +67,12 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
       <JsonLd data={meta?.jsonLd} />
-      <RenderBlocks blocks={layout} />
+      {body && (
+        <div className="container py-16">
+          <RichText data={body} enableGutter={false} />
+        </div>
+      )}
+      {layout && layout.length > 0 && <RenderBlocks blocks={layout} />}
     </>
   )
 }

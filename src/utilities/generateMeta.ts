@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
 
-import type { Page, Post } from '../payload-types'
+import type { Blog, Page } from '../payload-types'
 
-import { getDocumentURL } from './getDocumentURL'
+import { getDocumentURL, type DocumentCollection } from './getDocumentURL'
 import { formatPageTitle, getSeoDefaults } from './getSeoDefaults'
 import { getImageURL } from './getImageURL'
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { resolveOpenGraphMeta, resolveTwitterMeta } from './resolveSocialMeta'
 
-type SeoDoc = Partial<Page> | Partial<Post> | null
+type SeoDoc = Partial<Page> | Partial<Blog> | null
 
 export const generateMeta = async (args: {
-  collection?: 'pages' | 'posts'
+  collection?: DocumentCollection
   doc: SeoDoc
 }): Promise<Metadata> => {
   const { collection = 'pages', doc } = args

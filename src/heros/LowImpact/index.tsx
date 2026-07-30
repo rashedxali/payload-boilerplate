@@ -1,17 +1,15 @@
 import React from 'react'
 
-import type { Page } from '@/payload-types'
-
 import RichText from '@/components/RichText'
+import type { LegacyHeroProps } from '@/heros/types'
 
 type LowImpactHeroType =
   | {
       children?: React.ReactNode
       richText?: never
     }
-  | (Omit<Page['hero'], 'richText'> & {
+  | (LegacyHeroProps & {
       children?: never
-      richText?: Page['hero']['richText']
     })
 
 export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText }) => {

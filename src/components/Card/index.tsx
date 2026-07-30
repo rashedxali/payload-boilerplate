@@ -4,17 +4,18 @@ import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
-import type { Post } from '@/payload-types'
+import type { Blog } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { getDocumentPath } from '@/utilities/getDocumentURL'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'heroImage' | 'meta' | 'title'>
+export type CardPostData = Pick<Blog, 'slug' | 'categories' | 'heroImage' | 'meta' | 'title'>
 
 export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
   doc?: CardPostData
-  relationTo?: 'posts'
+  relationTo?: 'blogs'
   showCategories?: boolean
   title?: string
 }> = (props) => {
@@ -28,7 +29,7 @@ export const Card: React.FC<{
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
-  const href = `/${relationTo}/${slug}`
+  const href = slug ? getDocumentPath(slug, relationTo || 'blogs') : ''
 
   return (
     <article

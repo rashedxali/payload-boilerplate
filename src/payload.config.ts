@@ -5,10 +5,13 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { OurWork } from './collections/OurWork'
+import { Guides } from './collections/Guides'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
+import { Blogs } from './collections/Blogs'
+import { Services } from './collections/Services'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -69,11 +72,11 @@ export default buildConfig({
     defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
     defaultFromName: process.env.EMAIL_FROM_NAME || 'Payload CMS',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Blogs, Services, OurWork, Guides, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Settings],
   plugins,
-  secret: process.env.PAYLOAD_SECRET,
+  secret: process.env.PAYLOAD_SECRET || '',
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

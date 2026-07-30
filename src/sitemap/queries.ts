@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
 
 import { getSiteURL, indexableRobotsWhere } from '@/sitemap/shared'
+import { getCollectionPath, getDocumentPath } from '@/utilities/getDocumentURL'
 
 export const getPagesSitemapEntries = unstable_cache(
   async () => {
@@ -43,7 +44,7 @@ export const getPagesSitemapEntries = unstable_cache(
         lastmod: dateFallback,
       },
       {
-        loc: `${siteURL}/posts`,
+        loc: `${siteURL}${getCollectionPath('blogs')}`,
         lastmod: dateFallback,
       },
     ]
@@ -71,7 +72,7 @@ export const getPostsSitemapEntries = unstable_cache(
     const siteURL = getSiteURL()
 
     const results = await payload.find({
-      collection: 'posts',
+      collection: 'blogs',
       overrideAccess: false,
       draft: false,
       depth: 0,
@@ -102,7 +103,7 @@ export const getPostsSitemapEntries = unstable_cache(
       ? results.docs
           .filter((post) => Boolean(post?.slug) && post.meta?.robots !== 'noindex')
           .map((post) => ({
-            loc: `${siteURL}/posts/${post?.slug}`,
+            loc: `${siteURL}${getDocumentPath(post?.slug, 'blogs')}`,
             lastmod: post.updatedAt || dateFallback,
           }))
       : []
