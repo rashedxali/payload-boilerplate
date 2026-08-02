@@ -5,6 +5,9 @@ import { optionalText, optionalUpload } from '@/blocks/shared/fields'
 export const AwardsRecognition: Block = {
   slug: 'awardsRecognition',
   interfaceName: 'AwardsRecognitionBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Awards Recognition', plural: 'Awards Recognition' },
   fields: [
     optionalUpload('image', 'Image'),

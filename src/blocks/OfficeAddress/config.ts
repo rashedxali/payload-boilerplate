@@ -5,6 +5,9 @@ import { htmlField, optionalText, optionalUpload } from '@/blocks/shared/fields'
 export const OfficeAddress: Block = {
   slug: 'officeAddress',
   interfaceName: 'OfficeAddressBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Office Address', plural: 'Office Address' },
   fields: [
     optionalText('title', 'Title'),

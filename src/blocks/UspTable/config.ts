@@ -6,6 +6,9 @@ export const UspTable: Block = {
   slug: 'uspTable',
   interfaceName: 'UspTableBlock',
   labels: { singular: 'USP Table', plural: 'USP Tables' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('tableTitle', 'Table Title'),
     optionalUpload('logo', 'Logo'),

@@ -6,6 +6,9 @@ export const PageBanner: Block = {
   slug: 'pageBanner',
   interfaceName: 'PageBannerBlock',
   labels: { singular: 'Page Banner', plural: 'Page Banners' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalText('subtitle', 'Subtitle'),

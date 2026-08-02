@@ -6,6 +6,9 @@ export const TitleWithTabs: Block = {
   slug: 'titleWithTabs',
   interfaceName: 'TitleWithTabsBlock',
   labels: { singular: 'Title With Tabs', plural: 'Title With Tabs' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalText('buttonTitle', 'Button Title'),

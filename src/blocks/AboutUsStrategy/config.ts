@@ -4,6 +4,9 @@ import { htmlField, optionalText } from '@/blocks/shared/fields'
 
 export const AboutUsStrategy: Block = {
   slug: 'aboutUsStrategy',
+  admin: {
+    disableBlockName: true,
+  },
   interfaceName: 'AboutUsStrategyBlock',
   labels: { singular: 'About Us Strategy', plural: 'About Us Strategy' },
   fields: [

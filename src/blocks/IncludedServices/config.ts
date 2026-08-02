@@ -5,6 +5,9 @@ import { htmlField, optionalText, optionalUpload } from '@/blocks/shared/fields'
 export const IncludedServices: Block = {
   slug: 'includedServices',
   interfaceName: 'IncludedServicesBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Included Services', plural: 'Included Services' },
   fields: [
     optionalText('title', 'Title'),

@@ -5,6 +5,9 @@ import { optionalText } from '@/blocks/shared/fields'
 export const IndustryExperience: Block = {
   slug: 'industryExperience',
   interfaceName: 'IndustryExperienceBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Industry Experience', plural: 'Industry Experience' },
   fields: [
     optionalText('title', 'Title'),

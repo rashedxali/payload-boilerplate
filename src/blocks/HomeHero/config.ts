@@ -5,6 +5,9 @@ import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/field
 export const HomeHero: Block = {
   slug: 'homeHero',
   interfaceName: 'HomeHeroBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Home Hero', plural: 'Home Heroes' },
   fields: [
     optionalText('title', 'Title'),

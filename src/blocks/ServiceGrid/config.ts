@@ -6,6 +6,9 @@ export const ServiceGrid: Block = {
   slug: 'serviceGrid',
   interfaceName: 'ServiceGridBlock',
   labels: { singular: 'Service Grid', plural: 'Service Grids' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     {
       name: 'variant',

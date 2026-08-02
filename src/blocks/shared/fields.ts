@@ -1,6 +1,5 @@
 import type { Field } from 'payload'
 
-/** Short `enumName` keeps Postgres identifiers under the 63-char limit when nested in versioned block tables. */
 export const buttonGroup = (name = 'button'): Field => ({
   name,
   type: 'group',
@@ -12,7 +11,6 @@ export const buttonGroup = (name = 'button'): Field => ({
       type: 'select',
       label: 'Button Target',
       options: ['_self', '_blank'],
-      enumName: 'btn_tgt',
     },
   ],
 })

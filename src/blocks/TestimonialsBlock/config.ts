@@ -6,6 +6,9 @@ export const TestimonialsBlock: Block = {
   slug: 'testimonialsBlock',
   interfaceName: 'TestimonialsBlockBlock',
   labels: { singular: 'Testimonials', plural: 'Testimonials' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     {
       name: 'variant',

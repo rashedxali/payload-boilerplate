@@ -5,6 +5,9 @@ import { htmlField, optionalText, optionalUpload } from '@/blocks/shared/fields'
 export const CaseDetails: Block = {
   slug: 'caseDetails',
   interfaceName: 'CaseDetailsBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Case Details', plural: 'Case Details' },
   fields: [
     optionalUpload('bannerImage', 'Banner Image'),

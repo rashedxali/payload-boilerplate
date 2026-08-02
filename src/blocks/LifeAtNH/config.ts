@@ -5,6 +5,9 @@ import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/field
 export const LifeAtNH: Block = {
   slug: 'lifeAtNH',
   interfaceName: 'LifeAtNHBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Life at Notionhive', plural: 'Life at Notionhive' },
   fields: [
     optionalText('title', 'Title'),

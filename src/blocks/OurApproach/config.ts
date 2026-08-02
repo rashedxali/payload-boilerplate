@@ -5,6 +5,9 @@ import { optionalText } from '@/blocks/shared/fields'
 export const OurApproach: Block = {
   slug: 'ourApproach',
   interfaceName: 'OurApproachBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Our Approach', plural: 'Our Approach Sections' },
   fields: [
     optionalText('title', 'Title'),

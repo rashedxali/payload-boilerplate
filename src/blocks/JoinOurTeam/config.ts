@@ -5,6 +5,9 @@ import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/field
 export const JoinOurTeam: Block = {
   slug: 'joinOurTeam',
   interfaceName: 'JoinOurTeamBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Join Our Team', plural: 'Join Our Team' },
   fields: [
     optionalText('title', 'Title'),

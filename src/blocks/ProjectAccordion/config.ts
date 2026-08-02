@@ -9,6 +9,9 @@ export const ProjectAccordion: Block = {
   dbName: 'projAcc',
   interfaceName: 'ProjectAccordionBlock',
   labels: { singular: 'Project Accordion', plural: 'Project Accordions' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalText('description', 'Description', true),

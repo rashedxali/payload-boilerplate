@@ -6,6 +6,9 @@ export const VideoTestimonial: Block = {
   slug: 'videoTestimonial',
   interfaceName: 'VideoTestimonialBlock',
   labels: { singular: 'Video Testimonial', plural: 'Video Testimonials' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     {
       name: 'videos',

@@ -5,6 +5,9 @@ import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/field
 export const LevelUpCTA: Block = {
   slug: 'levelUpCTA',
   interfaceName: 'LevelUpCTABlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Level Up CTA', plural: 'Level Up CTAs' },
   fields: [
     optionalText('title', 'Title'),

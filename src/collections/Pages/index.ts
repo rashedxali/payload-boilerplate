@@ -66,15 +66,7 @@ export const Pages: CollectionConfig<'pages'> = {
               admin: {
                 initCollapsed: true,
               },
-            },
-            {
-              name: 'body',
-              type: 'richText',
-              label: 'Body (for legal/text pages)',
-              admin: {
-                description: 'Optional rich text content. Used for pages without block layouts.',
-              },
-            },
+            }
           ],
           label: 'Content',
         },

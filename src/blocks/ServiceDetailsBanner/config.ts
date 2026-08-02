@@ -6,6 +6,9 @@ export const ServiceDetailsBanner: Block = {
   slug: 'serviceDetailsBanner',
   interfaceName: 'ServiceDetailsBannerBlock',
   labels: { singular: 'Service Details Banner', plural: 'Service Details Banners' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalText('description', 'Description', true),

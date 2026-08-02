@@ -6,6 +6,9 @@ export const OurStory: Block = {
   slug: 'ourStory',
   interfaceName: 'OurStoryBlock',
   labels: { singular: 'Our Story', plural: 'Our Story' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalText('subtitle', 'Subtitle'),

@@ -5,6 +5,9 @@ import { optionalText } from '@/blocks/shared/fields'
 export const NumbersSection: Block = {
   slug: 'numbersSection',
   interfaceName: 'NumbersSectionBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Numbers Section', plural: 'Numbers Sections' },
   fields: [
     optionalText('title', 'Title'),

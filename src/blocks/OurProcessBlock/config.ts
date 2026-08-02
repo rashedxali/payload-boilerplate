@@ -5,6 +5,9 @@ import { optionalText } from '@/blocks/shared/fields'
 export const OurProcessBlock: Block = {
   slug: 'ourProcessBlock',
   interfaceName: 'OurProcessBlockBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Our Process (Home)', plural: 'Our Process (Home)' },
   fields: [
     optionalText('title', 'Title'),

@@ -6,6 +6,9 @@ export const WhyNotionhive: Block = {
   slug: 'whyNotionhive',
   interfaceName: 'WhyNotionhiveBlock',
   labels: { singular: 'Why Notionhive', plural: 'Why Notionhive Sections' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalUpload('centerIcon', 'Center Icon'),

@@ -5,6 +5,9 @@ import { optionalText } from '@/blocks/shared/fields'
 export const CaseStudiesBlock: Block = {
   slug: 'caseStudiesBlock',
   interfaceName: 'CaseStudiesBlockBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Case Studies', plural: 'Case Studies Blocks' },
   fields: [
     {

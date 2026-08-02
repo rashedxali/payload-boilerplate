@@ -4,6 +4,9 @@ export const RichContent: Block = {
   slug: 'richContent',
   interfaceName: 'RichContentBlock',
   labels: { singular: 'Rich Content', plural: 'Rich Content' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     {
       name: 'content',

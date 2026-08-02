@@ -209,24 +209,6 @@ export interface Page {
         | RichContentBlock
       )[]
     | null;
-  /**
-   * Optional rich text content. Used for pages without block layouts.
-   */
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -2044,7 +2026,6 @@ export interface PagesSelect<T extends boolean = true> {
         videoTestimonial?: T | VideoTestimonialBlockSelect<T>;
         richContent?: T | RichContentBlockSelect<T>;
       };
-  body?: T;
   meta?:
     | T
     | {

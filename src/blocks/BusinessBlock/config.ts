@@ -5,6 +5,9 @@ import { optionalText, optionalUpload } from '@/blocks/shared/fields'
 export const BusinessBlock: Block = {
   slug: 'businessBlock',
   interfaceName: 'BusinessBlockBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Grow Business', plural: 'Grow Business Sections' },
   fields: [
     optionalText('title', 'Title'),

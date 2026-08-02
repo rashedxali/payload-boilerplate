@@ -5,6 +5,9 @@ import { buttonGroup, optionalText } from '@/blocks/shared/fields'
 export const CaseSummary: Block = {
   slug: 'caseSummary',
   interfaceName: 'CaseSummaryBlock',
+  admin: {
+    disableBlockName: true,
+  },
   labels: { singular: 'Case Summary', plural: 'Case Summaries' },
   fields: [
     optionalText('year', 'Year'),

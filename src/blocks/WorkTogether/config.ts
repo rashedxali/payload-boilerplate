@@ -6,6 +6,9 @@ export const WorkTogether: Block = {
   slug: 'workTogether',
   interfaceName: 'WorkTogetherBlock',
   labels: { singular: 'Work Together', plural: 'Work Together' },
+  admin: {
+    disableBlockName: true,
+  },
   fields: [
     optionalText('title', 'Title'),
     optionalText('description', 'Description', true),
