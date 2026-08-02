@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FadeIn } from '@/components/FadeIn'
 import { getDocumentPath } from '@/utilities/getDocumentURL'
+import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
 import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
@@ -38,7 +39,9 @@ export const CaseStudiesBlock: React.FC<AnyBlock> = (props) => {
               >
                 <MediaImage resource={cs.featuredImage as number} className="aspect-[16/10]" />
                 <div className="p-6">
-                  <h3 className="text-xl group-hover:text-nh-blue">{cs.title}</h3>
+                  <h3 className="text-xl group-hover:text-nh-blue">
+                    {getPlainTextFromLexical(cs.title)}
+                  </h3>
                 </div>
               </Link>
             )

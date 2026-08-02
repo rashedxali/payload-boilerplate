@@ -49,6 +49,20 @@ export function isLegacyTitleValue(value: unknown): value is string {
   return typeof value === 'string'
 }
 
+function isPopulatedDocument(value: unknown): value is Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+
+  const obj = value as Record<string, unknown>
+
+  // Layout blocks and form field blocks are not CMS documents.
+  if ('blockType' in obj || 'blockName' in obj) return false
+
+  // Lexical editor state — do not treat as a Payload document.
+  if ('root' in obj && obj.root && typeof obj.root === 'object') return false
+
+  return 'id' in obj && ('slug' in obj || 'createdAt' in obj || 'updatedAt' in obj)
+}
+
 export function normalizeTitleValue(value: unknown): unknown {
   if (isLegacyTitleValue(value)) {
     return stringToTitleLexical(value)
@@ -64,6 +78,10 @@ export function normalizeTitleFields<T>(data: T): T {
   }
 
   if (data && typeof data === 'object') {
+    if (isPopulatedDocument(data)) {
+      return data as T
+    }
+
     const result = { ...(data as Record<string, unknown>) }
 
     for (const [key, value] of Object.entries(result)) {

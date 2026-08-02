@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FadeIn } from '@/components/FadeIn'
 import { getDocumentPath } from '@/utilities/getDocumentURL'
+import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 import { MediaImage, Section } from '@/blocks/shared/ui'
 
 type AnyBlock = Record<string, any>
@@ -19,7 +20,9 @@ export const FeaturedBlogPostBlock: React.FC<AnyBlock> = (props) => {
           <MediaImage resource={post.heroImage as number} className="aspect-[16/10]" />
           <div className="flex flex-col justify-center p-8">
             <p className="mb-2 text-sm font-medium text-nh-blue">Featured</p>
-            <h2 className="text-3xl group-hover:text-nh-blue">{post.title}</h2>
+            <h2 className="text-3xl group-hover:text-nh-blue">
+              {getPlainTextFromLexical(post.title)}
+            </h2>
           </div>
         </Link>
       </FadeIn>
