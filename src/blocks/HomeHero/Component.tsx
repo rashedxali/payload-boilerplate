@@ -19,7 +19,7 @@ export const HomeHeroBlock: React.FC<AnyBlock> = (props) => {
       <FadeIn>
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <BlockTitle className="nh-hero-title mb-6" data={props.title} />
+            <BlockTitle className="nh-hero-title mb-6" data={props?.title} />
             {description && <p className="mb-8 text-lg text-black/70">{description}</p>}
             {highlights.length > 0 && (
               <ul className="mb-8 flex flex-wrap gap-3">
