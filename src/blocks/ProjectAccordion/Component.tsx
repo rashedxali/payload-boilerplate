@@ -13,7 +13,7 @@ export const ProjectAccordionBlock: React.FC<AnyBlock> = (props) => {
       title?: string
       description?: string
       projectImage?: number
-      button?: { text?: string; url?: string }
+      button?: { text?: string; href?: string }
     }>) || []
   const [active, setActive] = useState(0)
 

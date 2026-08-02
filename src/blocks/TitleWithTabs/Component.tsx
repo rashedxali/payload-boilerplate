@@ -6,10 +6,10 @@ import { NHButton, Section } from '@/blocks/shared/ui'
 import { BlockTitle } from '@/blocks/shared/BlockTitle'
 import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 
-type AnyBlock = Record<string, unknown>
+type AnyBlock = Record<string, any>
 
 export const TitleWithTabsBlock: React.FC<AnyBlock> = (props) => {
-  const tabs = (props.tabs as Array<{ title?: unknown; description?: string }>) || []
+  const tabs = (props.tabs as Array<{ title?: any; description?: string }>) || []
   const [active, setActive] = useState(0)
 
   return (

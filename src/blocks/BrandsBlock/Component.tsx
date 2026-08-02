@@ -9,7 +9,7 @@ type AnyBlock = Record<string, any>
 
 export const BrandsBlock: React.FC<AnyBlock> = (props) => {
   const items = (props.items as Array<{ image?: number }>) || []
-  const button = props.button as { text?: string; url?: string }
+  const button = props.button as { text?: string; href?: string }
 
   return (
     <Section>

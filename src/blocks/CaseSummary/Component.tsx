@@ -7,7 +7,7 @@ import { HtmlContent, NHButton, Section } from '@/blocks/shared/ui'
 type AnyBlock = Record<string, any>
 
 export const CaseSummaryBlock: React.FC<AnyBlock> = (props) => {
-  const button = props.button as { text?: string; url?: string }
+  const button = props.button as { text?: string; href?: string }
 
   return (
     <Section>

@@ -5,7 +5,7 @@ import { FadeIn } from '@/components/FadeIn'
 import { Section } from '@/blocks/shared/ui'
 import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 
-type AnyBlock = Record<string, unknown>
+type AnyBlock = Record<string, any>
 
 export const VideoTestimonialBlock: React.FC<AnyBlock> = (props) => {
   const videos = (props.videos as Array<{ videoUrl?: string; title?: unknown }>) || []

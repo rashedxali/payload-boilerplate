@@ -6,7 +6,7 @@ import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
 import { BlockTitle } from '@/blocks/shared/BlockTitle'
 import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 
-type AnyBlock = Record<string, unknown>
+type AnyBlock = Record<string, any>
 
 export const HomeHeroBlock: React.FC<AnyBlock> = (props) => {
   const description = props.description as string

@@ -15,7 +15,7 @@ export const TestimonialsBlock: React.FC<AnyBlock> = (props) => {
       position?: string
       image?: number
     }>) || []
-  const button = props.button as { text?: string; url?: string }
+  const button = props.button as { text?: string; href?: string }
 
   return (
     <Section className="bg-nh-gray">

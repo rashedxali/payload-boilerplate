@@ -8,7 +8,7 @@ import { BlockTitle } from '@/blocks/shared/BlockTitle'
 type AnyBlock = Record<string, any>
 
 export const LevelUpCTABlock: React.FC<AnyBlock> = (props) => {
-  const button = props.button as { text?: string; url?: string }
+  const button = props.button as { text?: string; href?: string }
 
   return (
     <Section>

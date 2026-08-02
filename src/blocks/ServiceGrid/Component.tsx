@@ -17,7 +17,7 @@ export const ServiceGridBlock: React.FC<AnyBlock> = (props) => {
       buttonTitle?: string
       url?: string
     }>) || []
-  const button = props.button as { text?: string; url?: string }
+  const button = props.button as { text?: string; href?: string }
 
   return (
     <Section>
