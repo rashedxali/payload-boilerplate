@@ -1,6 +1,8 @@
 import { buildRobotsTxt, isRobotsTxtEnabled } from '@/utilities/buildRobotsTxt'
 import { getCachedSettings } from '@/utilities/getSettings'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const settings = await getCachedSettings()
 

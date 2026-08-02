@@ -4235,7 +4235,7 @@ export interface Setting {
       customContent?: string | null;
     };
     /**
-     * Enable or disable public sitemap access at /sitemap.xml. Child sitemaps such as pages-sitemap.xml and posts-sitemap.xml continue to generate internally.
+     * Enable or disable public sitemap access. When enabled, /sitemap.xml lists one child sitemap per frontend collection (pages, blogs, services, our-work, guides).
      */
     sitemap?: {
       status?: ('enable' | 'disable') | null;

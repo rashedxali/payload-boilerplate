@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { draftMode } from 'next/headers'
+
+import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { queryDocumentBySlug } from '@/utilities/queryDocumentBySlug'
 
 import DownloadPageClient from './DownloadClient'
 
@@ -10,15 +12,9 @@ type Args = {
 
 export default async function DownloadPage({ params }: Args) {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'guides',
-    limit: 1,
-    depth: 2,
-    where: { slug: { equals: slug } },
-  })
+  const { isEnabled: draft } = await draftMode()
+  const guide = await queryDocumentBySlug('guides', decodeURIComponent(slug))
 
-  const guide = result.docs[0]
   if (!guide) {
     return (
       <div className="container py-28">
@@ -30,16 +26,17 @@ export default async function DownloadPage({ params }: Args) {
   const file =
     typeof guide.file === 'object' && guide.file?.url ? guide.file.url : ''
 
-  return <DownloadPageClient guideTitle={guide.title} fileUrl={file} />
+  return (
+    <>
+      {draft && <LivePreviewListener />}
+      <DownloadPageClient guideTitle={guide.title} fileUrl={file} />
+    </>
+  )
 }
 
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug } = await params
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'guides',
-    limit: 1,
-    where: { slug: { equals: slug } },
-  })
-  return { title: result.docs[0]?.title || 'Download' }
+  const guide = await queryDocumentBySlug('guides', decodeURIComponent(slug))
+
+  return { title: guide?.title || 'Download' }
 }

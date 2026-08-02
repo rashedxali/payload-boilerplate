@@ -1,8 +1,9 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { OurWorkItem } from '../../../payload-types'
+import { getSitemapCacheTag } from '@/sitemap/registry'
 import { getCollectionPath, getDocumentPath } from '../../../utilities/getDocumentURL'
 
 const archivePath = getCollectionPath('our-work')
@@ -18,11 +19,13 @@ export const revalidateOurWork: CollectionAfterChangeHook<OurWorkItem> = ({
       payload.logger.info(`Revalidating our work item at path: ${path}`)
       revalidatePath(path)
       revalidatePath(archivePath)
+      revalidateTag(getSitemapCacheTag('our-work'), 'max')
     }
 
     if (previousDoc?._status === 'published' && doc._status !== 'published') {
       revalidatePath(getDocumentPath(previousDoc.slug, 'our-work'))
       revalidatePath(archivePath)
+      revalidateTag(getSitemapCacheTag('our-work'), 'max')
     }
   }
   return doc
@@ -35,6 +38,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<OurWorkItem> = ({
   if (!context.disableRevalidate && doc?.slug) {
     revalidatePath(getDocumentPath(doc.slug, 'our-work'))
     revalidatePath(archivePath)
+    revalidateTag(getSitemapCacheTag('our-work'), 'max')
   }
   return doc
 }

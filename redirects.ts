@@ -1,5 +1,13 @@
 import type { NextConfig } from 'next'
 
+export const renamedSectionRedirects = [
+  { from: 'our-services', to: 'services' },
+  { from: 'download', to: 'guides' },
+] as const
+
+/** Page slugs that 301 elsewhere — exclude from the pages sitemap. */
+export const redirectedPageSlugs = renamedSectionRedirects.map(({ from }) => from)
+
 export const redirects: NextConfig['redirects'] = async () => {
   const internetExplorerRedirect = {
     destination: '/ie-incompatible.html',
@@ -14,36 +22,7 @@ export const redirects: NextConfig['redirects'] = async () => {
     source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
   }
 
-  // Route segments are named after their collection slug, so these cover the URLs
-  // that predate that convention. Each points at the final destination rather than
-  // chaining through the intermediate one.
-  const legacyCollectionRedirects = ['posts', 'blog'].flatMap((prefix) => [
-    {
-      source: `/${prefix}`,
-      destination: '/blogs',
-      permanent: true,
-    },
-    {
-      source: `/${prefix}/page/:pageNumber`,
-      destination: '/blogs/page/:pageNumber',
-      permanent: true,
-    },
-    {
-      source: `/${prefix}/category/:slug`,
-      destination: '/blogs/category/:slug',
-      permanent: true,
-    },
-    {
-      source: `/${prefix}/:slug`,
-      destination: '/blogs/:slug',
-      permanent: true,
-    },
-  ])
-
-  const renamedSectionRedirects = [
-    { from: 'our-services', to: 'services' },
-    { from: 'download', to: 'guides' },
-  ].flatMap(({ from, to }) => [
+  const renamedSectionRedirectRules = renamedSectionRedirects.flatMap(({ from, to }) => [
     {
       source: `/${from}`,
       destination: `/${to}`,
@@ -56,5 +35,5 @@ export const redirects: NextConfig['redirects'] = async () => {
     },
   ])
 
-  return [internetExplorerRedirect, ...legacyCollectionRedirects, ...renamedSectionRedirects]
+  return [internetExplorerRedirect, ...renamedSectionRedirectRules]
 }

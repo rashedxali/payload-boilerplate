@@ -15,7 +15,7 @@ export function isLlmsTxtEnabled(settings: Setting): boolean {
 }
 
 export function isSitemapEnabled(settings: Setting): boolean {
-  return settings.seo?.sitemap?.status !== 'disable'
+  return settings.seo?.sitemap?.status === 'enable'
 }
 
 export function buildRobotsTxt(settings: Setting): string {
@@ -25,7 +25,6 @@ export function buildRobotsTxt(settings: Setting): string {
     return customContent
   }
 
-  const siteURL = getServerSideURL()
   const lines = ['User-agent: *', 'Disallow: /admin/']
 
   if (isSitemapEnabled(settings)) {

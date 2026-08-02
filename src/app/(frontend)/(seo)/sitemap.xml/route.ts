@@ -3,6 +3,8 @@ import { getServerSideSitemapIndex } from 'next-sitemap'
 import { getSitemapIndexUrls } from '@/sitemap/registry'
 import { getSitemapSettingsResponse } from '@/sitemap/shared'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const disabledResponse = await getSitemapSettingsResponse()
 

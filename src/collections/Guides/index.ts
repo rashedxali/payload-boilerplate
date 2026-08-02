@@ -2,8 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
+import { revalidateDelete, revalidateGuide } from './hooks/revalidateGuide'
 
 export const Guides: CollectionConfig<'guides'> = {
   slug: 'guides',
@@ -19,6 +21,20 @@ export const Guides: CollectionConfig<'guides'> = {
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
+    livePreview: {
+      url: ({ data, req }) =>
+        generatePreviewPath({
+          slug: data?.slug,
+          collection: 'guides',
+          req,
+        }),
+    },
+    preview: (data, { req }) =>
+      generatePreviewPath({
+        slug: data?.slug as string,
+        collection: 'guides',
+        req,
+      }),
     useAsTitle: 'title',
   },
   fields: [
@@ -46,7 +62,9 @@ export const Guides: CollectionConfig<'guides'> = {
     slugField(),
   ],
   hooks: {
+    afterChange: [revalidateGuide],
     beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
   },
   versions: {
     drafts: {

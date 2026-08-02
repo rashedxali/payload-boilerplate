@@ -2,114 +2,143 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 import { unstable_cache } from 'next/cache'
 
-import { getSiteURL, indexableRobotsWhere } from '@/sitemap/shared'
-import { getCollectionPath, getDocumentPath } from '@/utilities/getDocumentURL'
+import {
+  getSitemapCacheTag,
+  type SitemapCollectionResource,
+} from '@/sitemap/registry'
+import { getSiteURL, collectionHasSitemapSeoMeta, getSitemapDocumentWhere } from '@/sitemap/shared'
+import {
+  getCollectionPath,
+  getDocumentPath,
+  type DocumentCollection,
+} from '@/utilities/getDocumentURL'
+import { redirectedPageSlugs } from '../../redirects'
 
-export const getPagesSitemapEntries = unstable_cache(
-  async () => {
-    const payload = await getPayload({ config })
-    const siteURL = getSiteURL()
+type SitemapEntry = {
+  loc: string
+  lastmod: string
+}
 
-    const results = await payload.find({
-      collection: 'pages',
-      overrideAccess: false,
-      draft: false,
-      depth: 0,
-      limit: 1000,
-      pagination: false,
-      where: {
-        and: [
-          {
-            _status: {
-              equals: 'published',
-            },
-          },
-          indexableRobotsWhere,
-        ],
-      },
-      select: {
-        slug: true,
-        updatedAt: true,
-        meta: {
-          robots: true,
-        },
-      },
-    })
+const redirectedPageSlugSet = new Set<string>(redirectedPageSlugs)
 
-    const dateFallback = new Date().toISOString()
-
-    const defaultEntries = [
+function getExtraSitemapEntries(
+  collection: DocumentCollection,
+  siteURL: string,
+  dateFallback: string,
+): SitemapEntry[] {
+  if (collection === 'pages') {
+    return [
       {
         loc: `${siteURL}/search`,
         lastmod: dateFallback,
       },
-      {
-        loc: `${siteURL}${getCollectionPath('blogs')}`,
-        lastmod: dateFallback,
-      },
     ]
+  }
 
-    const pageEntries = results.docs
-      ? results.docs
-          .filter((page) => Boolean(page?.slug) && page.meta?.robots !== 'noindex')
-          .map((page) => ({
-            loc: page?.slug === 'home' ? `${siteURL}/` : `${siteURL}/${page?.slug}`,
-            lastmod: page.updatedAt || dateFallback,
-          }))
-      : []
+  const archivePath = getCollectionPath(collection)
 
-    return [...defaultEntries, ...pageEntries]
-  },
-  ['pages-sitemap'],
-  {
-    tags: ['pages-sitemap'],
-  },
-)
+  // Guides only have per-document download pages, not a collection archive route.
+  if (archivePath === '/' || collection === 'guides') {
+    return []
+  }
 
-export const getPostsSitemapEntries = unstable_cache(
-  async () => {
-    const payload = await getPayload({ config })
-    const siteURL = getSiteURL()
+  return [
+    {
+      loc: `${siteURL}${archivePath}`,
+      lastmod: dateFallback,
+    },
+  ]
+}
 
-    const results = await payload.find({
-      collection: 'blogs',
-      overrideAccess: false,
-      draft: false,
-      depth: 0,
-      limit: 1000,
-      pagination: false,
-      where: {
-        and: [
-          {
-            _status: {
-              equals: 'published',
-            },
+function dedupeSitemapEntries(entries: SitemapEntry[]): SitemapEntry[] {
+  const seen = new Set<string>()
+
+  return entries.filter((entry) => {
+    if (seen.has(entry.loc)) return false
+    seen.add(entry.loc)
+    return true
+  })
+}
+
+function sortSitemapEntries(collection: DocumentCollection, entries: SitemapEntry[]): SitemapEntry[] {
+  if (collection !== 'pages') {
+    return entries
+  }
+
+  const siteURL = getSiteURL()
+  const homepageUrl = `${siteURL}/`
+
+  return [...entries].sort((a, b) => {
+    if (a.loc === homepageUrl) return -1
+    if (b.loc === homepageUrl) return 1
+    return a.loc.localeCompare(b.loc)
+  })
+}
+
+async function fetchCollectionSitemapEntries(
+  collection: DocumentCollection,
+): Promise<SitemapEntry[]> {
+  const payload = await getPayload({ config })
+  const siteURL = getSiteURL()
+  const dateFallback = new Date().toISOString()
+
+  const results = await payload.find({
+    collection,
+    overrideAccess: false,
+    draft: false,
+    depth: 0,
+    limit: 1000,
+    pagination: false,
+    where: getSitemapDocumentWhere(collection),
+    select: collectionHasSitemapSeoMeta(collection)
+      ? {
+          slug: true,
+          updatedAt: true,
+          meta: {
+            robots: true,
           },
-          indexableRobotsWhere,
-        ],
-      },
-      select: {
-        slug: true,
-        updatedAt: true,
-        meta: {
-          robots: true,
+        }
+      : {
+          slug: true,
+          updatedAt: true,
         },
-      },
-    })
+  })
 
-    const dateFallback = new Date().toISOString()
+  const documentEntries = results.docs
+    ? results.docs
+        .filter((doc) => {
+          if (!doc?.slug) return false
 
-    return results.docs
-      ? results.docs
-          .filter((post) => Boolean(post?.slug) && post.meta?.robots !== 'noindex')
-          .map((post) => ({
-            loc: `${siteURL}${getDocumentPath(post?.slug, 'blogs')}`,
-            lastmod: post.updatedAt || dateFallback,
-          }))
-      : []
-  },
-  ['posts-sitemap'],
-  {
-    tags: ['posts-sitemap'],
-  },
-)
+          if (collection === 'pages' && redirectedPageSlugSet.has(doc.slug)) {
+            return false
+          }
+
+          const robots = 'meta' in doc ? doc.meta?.robots : undefined
+          return robots !== 'noindex'
+        })
+        .map((doc) => ({
+          loc: `${siteURL}${getDocumentPath(doc.slug, collection)}`,
+          lastmod: doc.updatedAt || dateFallback,
+        }))
+    : []
+
+  const entries = dedupeSitemapEntries([
+    ...getExtraSitemapEntries(collection, siteURL, dateFallback),
+    ...documentEntries,
+  ])
+
+  return sortSitemapEntries(collection, entries)
+}
+
+export function getCollectionSitemapEntries(resource: SitemapCollectionResource) {
+  const { collection } = resource
+  const cacheTag = getSitemapCacheTag(collection)
+
+  return unstable_cache(
+    () => fetchCollectionSitemapEntries(collection),
+    [cacheTag],
+    {
+      tags: [cacheTag],
+    },
+  )()
+}

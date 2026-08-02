@@ -3,6 +3,7 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'paylo
 import { revalidatePath, revalidateTag } from 'next/cache'
 
 import type { Blog } from '../../../payload-types'
+import { getSitemapCacheTag } from '@/sitemap/registry'
 import { getCollectionPath, getDocumentPath } from '../../../utilities/getDocumentURL'
 
 const archivePath = getCollectionPath('blogs')
@@ -20,7 +21,7 @@ export const revalidateBlog: CollectionAfterChangeHook<Blog> = ({
 
       revalidatePath(path)
       revalidatePath(archivePath)
-      revalidateTag('posts-sitemap', 'max')
+      revalidateTag(getSitemapCacheTag('blogs'), 'max')
     }
 
     // If the blog was previously published, we need to revalidate the old path
@@ -31,7 +32,7 @@ export const revalidateBlog: CollectionAfterChangeHook<Blog> = ({
 
       revalidatePath(oldPath)
       revalidatePath(archivePath)
-      revalidateTag('posts-sitemap', 'max')
+      revalidateTag(getSitemapCacheTag('blogs'), 'max')
     }
   }
   return doc
@@ -43,7 +44,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Blog> = ({ doc, req: { 
 
     revalidatePath(path)
     revalidatePath(archivePath)
-    revalidateTag('posts-sitemap', 'max')
+    revalidateTag(getSitemapCacheTag('blogs'), 'max')
   }
 
   return doc
