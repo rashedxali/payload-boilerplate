@@ -3,11 +3,16 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { layoutBlocks } from '../../blocks/layoutBlocks'
+import { defaultLexical } from '@/fields/defaultLexical'
 import { extendedSeoFields } from '@/fields/seo'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import {
+  normalizeLayoutTitlesAfterRead,
+  normalizeLayoutTitlesBeforeChange,
+} from '@/hooks/normalizeLayoutTitles'
 
 import {
   MetaDescriptionField,
@@ -60,13 +65,36 @@ export const Pages: CollectionConfig<'pages'> = {
         {
           fields: [
             {
+              name: 'contentMode',
+              type: 'select',
+              defaultValue: 'layout',
+              options: [
+                { label: 'Block layout', value: 'layout' },
+                { label: 'Text page', value: 'text' },
+              ],
+              admin: {
+                description: 'Use Text page for legal or simple content pages with no block layout.',
+              },
+            },
+            {
               name: 'layout',
               type: 'blocks',
               blocks: layoutBlocks,
               admin: {
                 initCollapsed: true,
+                condition: (_data, siblingData) => siblingData?.contentMode !== 'text',
               },
-            }
+            },
+            {
+              name: 'body',
+              type: 'richText',
+              editor: defaultLexical,
+              label: 'Body',
+              admin: {
+                description: 'Rich text content for text-only pages.',
+                condition: (_data, siblingData) => siblingData?.contentMode === 'text',
+              },
+            },
           ],
           label: 'Content',
         },
@@ -98,8 +126,9 @@ export const Pages: CollectionConfig<'pages'> = {
     slugField(),
   ],
   hooks: {
+    afterRead: [normalizeLayoutTitlesAfterRead],
     afterChange: [revalidatePage],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [populatePublishedAt, normalizeLayoutTitlesBeforeChange],
     afterDelete: [revalidateDelete],
   },
   versions: {

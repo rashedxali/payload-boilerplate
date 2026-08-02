@@ -14,6 +14,10 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 
 import { revalidateOurWork, revalidateDelete } from './hooks/revalidateOurWork'
+import {
+  normalizeLayoutTitlesAfterRead,
+  normalizeLayoutTitlesBeforeChange,
+} from '@/hooks/normalizeLayoutTitles'
 
 export const OurWork: CollectionConfig<'our-work'> = {
   slug: 'our-work',
@@ -96,8 +100,9 @@ export const OurWork: CollectionConfig<'our-work'> = {
     slugField(),
   ],
   hooks: {
+    afterRead: [normalizeLayoutTitlesAfterRead],
     afterChange: [revalidateOurWork],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [populatePublishedAt, normalizeLayoutTitlesBeforeChange],
     afterDelete: [revalidateDelete],
   },
   typescript: {

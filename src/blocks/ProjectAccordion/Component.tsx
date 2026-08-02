@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -19,7 +20,7 @@ export const ProjectAccordionBlock: React.FC<AnyBlock> = (props) => {
   return (
     <Section>
       <FadeIn>
-        <h2 className="nh-section-title">{props.title as string}</h2>
+        <BlockTitle className="nh-section-title" data={props.title} />
         <p className="mb-10 max-w-3xl text-black/70">{props.description as string}</p>
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="space-y-3">
@@ -32,7 +33,7 @@ export const ProjectAccordionBlock: React.FC<AnyBlock> = (props) => {
                 }`}
                 onClick={() => setActive(i)}
               >
-                <h3 className="text-xl font-medium">{item.title}</h3>
+                <BlockTitle className="text-xl font-medium" data={item.title} />
                 {active === i && (
                   <p className="mt-3 text-black/70">{item.description}</p>
                 )}

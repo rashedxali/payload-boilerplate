@@ -1,6 +1,5 @@
 import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import RichText from '@/components/RichText'
-import { PostHero } from '@/heros/PostHero'
 
 import { createDocumentPage } from '../../_lib/createDocumentPage'
 import PageClient from './page.client'
@@ -10,7 +9,6 @@ const blogPage = createDocumentPage({
   render: (post) => (
     <article className="pt-16 pb-16">
       <PageClient />
-      <PostHero post={post} />
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />

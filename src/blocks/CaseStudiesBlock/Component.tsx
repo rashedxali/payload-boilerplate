@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FadeIn } from '@/components/FadeIn'
 import { getDocumentPath } from '@/utilities/getDocumentURL'
 import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -18,7 +19,7 @@ export const CaseStudiesBlock: React.FC<AnyBlock> = (props) => {
       <FadeIn>
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="nh-section-title mb-2">{props.title as string}</h2>
+            <BlockTitle className="nh-section-title mb-2" data={props.title} />
             <p className="text-black/70">{props.description as string}</p>
           </div>
           {props.viewMoreUrl && (

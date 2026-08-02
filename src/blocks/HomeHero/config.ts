@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/fields'
+import { buttonGroup, optionalText, optionalTitle, optionalUpload } from '@/blocks/shared/fields'
 
 export const HomeHero: Block = {
   slug: 'homeHero',
@@ -10,7 +10,7 @@ export const HomeHero: Block = {
   },
   labels: { singular: 'Home Hero', plural: 'Home Heroes' },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('subtitle', 'Subtitle'),
     optionalText('description', 'Description', true),
     buttonGroup('button'),
@@ -19,7 +19,7 @@ export const HomeHero: Block = {
     {
       name: 'highlights',
       type: 'array',
-      fields: [{ name: 'title', type: 'text' }],
+      fields: [optionalTitle('title', 'Title')],
     },
     {
       name: 'clientLogos',

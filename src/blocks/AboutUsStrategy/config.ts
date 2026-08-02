@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { htmlField, optionalText } from '@/blocks/shared/fields'
+import { htmlField, optionalText, optionalTitle } from '@/blocks/shared/fields'
 
 export const AboutUsStrategy: Block = {
   slug: 'aboutUsStrategy',
@@ -17,7 +17,7 @@ export const AboutUsStrategy: Block = {
       fields: [
         optionalText('count', 'Count'),
         optionalText('prefix', 'Prefix'),
-        optionalText('title', 'Title'),
+        optionalTitle('title', 'Title'),
       ],
     },
   ],

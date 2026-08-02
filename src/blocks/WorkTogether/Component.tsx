@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FadeIn } from '@/components/FadeIn'
 import { NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -11,7 +12,7 @@ export const WorkTogetherBlock: React.FC<AnyBlock> = (props) => (
   <Section className="bg-nh-blue text-white">
     <FadeIn>
       <div className="max-w-3xl">
-        <h2 className="nh-section-title text-white">{props.title as string}</h2>
+        <BlockTitle className="nh-section-title text-white" data={props.title} />
         <p className="mb-8 text-white/80">{props.description as string}</p>
         <div className="flex flex-wrap gap-4">
           <NHButton href={props.primaryButtonUrl as string} className="bg-white text-nh-blue">

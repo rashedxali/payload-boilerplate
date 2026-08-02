@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/fields'
+import { buttonGroup, optionalText, optionalTitle, optionalUpload } from '@/blocks/shared/fields'
 
 export const ProjectAccordion: Block = {
   slug: 'projectAccordion',
@@ -13,14 +13,14 @@ export const ProjectAccordion: Block = {
     disableBlockName: true,
   },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('description', 'Description', true),
     {
       name: 'accordions',
       dbName: 'items',
       type: 'array',
       fields: [
-        optionalText('title', 'Title'),
+        optionalTitle('title', 'Title'),
         optionalText('description', 'Description', true),
         optionalUpload('projectImage', 'Project Image'),
         buttonGroup('button'),

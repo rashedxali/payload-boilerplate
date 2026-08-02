@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { FadeIn } from '@/components/FadeIn'
 import { NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -23,7 +24,7 @@ export const ServiceGridBlock: React.FC<AnyBlock> = (props) => {
       <FadeIn>
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="nh-section-title mb-2">{props.title as string}</h2>
+            <BlockTitle className="nh-section-title mb-2" data={props.title} />
             <p className="text-black/70">{props.subtitle as string}</p>
           </div>
           <NHButton href={button?.href}>{button?.text}</NHButton>
@@ -35,7 +36,7 @@ export const ServiceGridBlock: React.FC<AnyBlock> = (props) => {
               href={item.url || '#'}
               className="group rounded-2xl border border-black/10 bg-white p-8 transition hover:border-nh-blue hover:shadow-lg"
             >
-              <h3 className="mb-2 text-2xl group-hover:text-nh-blue">{item.title}</h3>
+              <BlockTitle className="mb-2 text-2xl group-hover:text-nh-blue" data={item.title} />
               <p className="mb-4 text-sm text-black/60">{item.subtitle}</p>
               <p className="mb-6 text-black/70">{item.description}</p>
               <span className="text-sm font-medium text-nh-blue">{item.buttonTitle}</span>

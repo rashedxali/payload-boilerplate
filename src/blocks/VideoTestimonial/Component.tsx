@@ -3,11 +3,12 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { Section } from '@/blocks/shared/ui'
+import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 
-type AnyBlock = Record<string, any>
+type AnyBlock = Record<string, unknown>
 
 export const VideoTestimonialBlock: React.FC<AnyBlock> = (props) => {
-  const videos = (props.videos as Array<{ videoUrl?: string; title?: string }>) || []
+  const videos = (props.videos as Array<{ videoUrl?: string; title?: unknown }>) || []
 
   return (
     <Section>
@@ -20,7 +21,7 @@ export const VideoTestimonialBlock: React.FC<AnyBlock> = (props) => {
                   allowFullScreen
                   className="h-full w-full"
                   src={(video.videoUrl || '').replace('watch?v=', 'embed/')}
-                  title={video.title || 'Video testimonial'}
+                  title={getPlainTextFromLexical(video.title) || 'Video testimonial'}
                 />
               </div>
             </div>

@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { optionalText } from '@/blocks/shared/fields'
+import { optionalText, optionalTitle } from '@/blocks/shared/fields'
 
 export const CaseStudiesBlock: Block = {
   slug: 'caseStudiesBlock',
@@ -20,7 +20,7 @@ export const CaseStudiesBlock: Block = {
         { label: 'All', value: 'all' },
       ],
     },
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('description', 'Description', true),
     optionalText('viewMoreText', 'View More Text'),
     optionalText('viewMoreUrl', 'View More URL'),

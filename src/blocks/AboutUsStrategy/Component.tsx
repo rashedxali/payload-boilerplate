@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { HtmlContent, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -21,7 +22,7 @@ export const AboutUsStrategyBlock: React.FC<AnyBlock> = (props) => {
                 {n.count}
                 {n.prefix}
               </div>
-              <p className="mt-2">{n.title}</p>
+              <BlockTitle className="mt-2" data={n.title} />
             </div>
           ))}
         </div>

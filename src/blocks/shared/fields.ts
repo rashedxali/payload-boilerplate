@@ -1,5 +1,8 @@
 import type { Field } from 'payload'
 
+import { titleLexical } from '@/fields/titleLexical'
+import { normalizeTitleValue } from '@/utilities/stringToTitleLexical'
+
 export const buttonGroup = (name = 'button'): Field => ({
   name,
   type: 'group',
@@ -26,6 +29,17 @@ export const optionalText = (name: string, label?: string, multiline = false): F
   multiline
     ? { name, type: 'textarea', label: label || name }
     : { name, type: 'text', label: label || name }
+
+export const optionalTitle = (name: string, label?: string): Field => ({
+  name,
+  type: 'richText',
+  label: label || name,
+  editor: titleLexical,
+  hooks: {
+    afterRead: [({ value }) => normalizeTitleValue(value)],
+    beforeValidate: [({ value }) => normalizeTitleValue(value)],
+  },
+})
 
 export const htmlField = (name: string, label?: string): Field => ({
   name,

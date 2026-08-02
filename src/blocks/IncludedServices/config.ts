@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { htmlField, optionalText, optionalUpload } from '@/blocks/shared/fields'
+import { htmlField, optionalText, optionalTitle, optionalUpload } from '@/blocks/shared/fields'
 
 export const IncludedServices: Block = {
   slug: 'includedServices',
@@ -10,7 +10,7 @@ export const IncludedServices: Block = {
   },
   labels: { singular: 'Included Services', plural: 'Included Services' },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('description', 'Description', true),
     optionalText('buttonTitle', 'Button Title'),
     optionalText('buttonUrl', 'Button URL'),
@@ -18,7 +18,7 @@ export const IncludedServices: Block = {
       name: 'services',
       type: 'array',
       fields: [
-        optionalText('title', 'Title'),
+        optionalTitle('title', 'Title'),
         optionalText('subtitle', 'Subtitle'),
         optionalUpload('image', 'Image'),
         htmlField('description', 'Description'),

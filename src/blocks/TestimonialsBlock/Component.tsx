@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { HtmlContent, MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -20,7 +21,7 @@ export const TestimonialsBlock: React.FC<AnyBlock> = (props) => {
     <Section className="bg-nh-gray">
       <FadeIn>
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="nh-section-title mb-0">{props.title as string}</h2>
+          <BlockTitle className="nh-section-title mb-0" data={props.title} />
           <NHButton href={button?.href}>{button?.text}</NHButton>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -58,7 +58,8 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { layout, meta, body } = page
+  const { layout, meta, body, contentMode } = page
+  const isTextPage = contentMode === 'text' || (!layout?.length && Boolean(body))
 
   return (
     <>
@@ -67,12 +68,12 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
       <JsonLd data={meta?.jsonLd} />
-      {body && (
+      {isTextPage && body && (
         <div className="container py-16">
           <RichText data={body} enableGutter={false} />
         </div>
       )}
-      {layout && layout.length > 0 && <RenderBlocks blocks={layout} />}
+      {!isTextPage && layout && layout.length > 0 && <RenderBlocks blocks={layout} />}
     </>
   )
 }

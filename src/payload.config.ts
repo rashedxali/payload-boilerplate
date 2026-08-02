@@ -4,7 +4,6 @@ import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
-
 import { OurWork } from './collections/OurWork'
 import { Guides } from './collections/Guides'
 import { Categories } from './collections/Categories'
@@ -19,10 +18,8 @@ import { Settings } from './Settings/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-
 export default buildConfig({
   admin: {
     components: {
@@ -66,6 +63,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    blocksAsJSON: true,
   }),
   email: resendAdapter({
     apiKey: process.env.RESEND_API_KEY || '',
@@ -86,10 +84,8 @@ export default buildConfig({
       run: ({ req }: { req: PayloadRequest }): boolean => {
         // Allow logged in users to execute this endpoint (default)
         if (req.user) return true
-
         const secret = process.env.CRON_SECRET
         if (!secret) return false
-
         // If there is no logged in user, then check
         // for the Vercel Cron secret to be present as an
         // Authorization header:

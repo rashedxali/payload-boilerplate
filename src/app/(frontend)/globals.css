@@ -247,8 +247,12 @@
     @apply py-16 md:py-24;
   }
 
-  .nh-section-title {
+  .nh-section-title :is(h1, h2, h3, h4) {
     @apply text-4xl font-normal tracking-tight mb-6 max-sm:text-[2rem];
+  }
+
+  .nh-hero-title :is(h1, h2, h3, h4) {
+    @apply text-5xl font-medium tracking-tight max-sm:text-4xl m-0;
   }
 
   .nh-btn-primary {

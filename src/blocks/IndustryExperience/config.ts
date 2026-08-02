@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { optionalText } from '@/blocks/shared/fields'
+import { optionalText, optionalTitle } from '@/blocks/shared/fields'
 
 export const IndustryExperience: Block = {
   slug: 'industryExperience',
@@ -10,13 +10,13 @@ export const IndustryExperience: Block = {
   },
   labels: { singular: 'Industry Experience', plural: 'Industry Experience' },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('description', 'Description', true),
     {
       name: 'items',
       type: 'array',
       fields: [
-        optionalText('title', 'Title'),
+        optionalTitle('title', 'Title'),
         optionalText('description', 'Description', true),
       ],
     },

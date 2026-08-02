@@ -14,6 +14,10 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 
 import { revalidateDelete, revalidateService } from './hooks/revalidateService'
+import {
+  normalizeLayoutTitlesAfterRead,
+  normalizeLayoutTitlesBeforeChange,
+} from '@/hooks/normalizeLayoutTitles'
 
 export const Services: CollectionConfig<'services'> = {
   slug: 'services',
@@ -96,8 +100,9 @@ export const Services: CollectionConfig<'services'> = {
     slugField(),
   ],
   hooks: {
+    afterRead: [normalizeLayoutTitlesAfterRead],
     afterChange: [revalidateService],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [populatePublishedAt, normalizeLayoutTitlesBeforeChange],
     afterDelete: [revalidateDelete],
   },
   versions: {

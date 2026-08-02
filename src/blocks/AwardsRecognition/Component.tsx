@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { MediaImage, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -15,11 +16,11 @@ export const AwardsRecognitionBlock: React.FC<AnyBlock> = (props) => {
         <div className="grid gap-10 lg:grid-cols-2">
           <MediaImage resource={props.image as number} className="overflow-hidden rounded-2xl" />
           <div>
-            <h2 className="nh-section-title">{props.title as string}</h2>
+            <BlockTitle className="nh-section-title" data={props.title} />
             <div className="space-y-6">
               {items.map((item, i) => (
                 <div key={i}>
-                  <h3 className="text-xl">{item.title}</h3>
+                  <BlockTitle className="text-xl" data={item.title} />
                   <p className="text-black/70">{item.description}</p>
                 </div>
               ))}

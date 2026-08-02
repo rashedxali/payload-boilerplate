@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -15,7 +16,7 @@ export const PageBannerBlock: React.FC<AnyBlock> = (props) => (
             {props.pageTitle as string}
           </p>
         )}
-        <h1 className="mb-4">{props.title as string}</h1>
+        <BlockTitle className="mb-4" data={props.title} />
         <p className="text-lg text-black/70">{props.subtitle as string}</p>
         {props.buttonUrl && (
           <div className="mt-8">

@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { optionalText, optionalUpload } from '@/blocks/shared/fields'
+import { optionalText, optionalTitle, optionalUpload } from '@/blocks/shared/fields'
 
 export const ServiceDetailsBanner: Block = {
   slug: 'serviceDetailsBanner',
@@ -10,7 +10,7 @@ export const ServiceDetailsBanner: Block = {
     disableBlockName: true,
   },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('description', 'Description', true),
     optionalUpload('image', 'Image'),
     optionalText('viewMoreText', 'View More Text'),

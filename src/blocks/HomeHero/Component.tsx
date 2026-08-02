@@ -2,25 +2,24 @@
 
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
-import { BracketHighlight, MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
+import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 
-type AnyBlock = Record<string, any>
+type AnyBlock = Record<string, unknown>
 
 export const HomeHeroBlock: React.FC<AnyBlock> = (props) => {
-  const title = props.title as string
   const description = props.description as string
-  const button = props.button as { text?: string; url?: string }
+  const button = props.button as { text?: string; href?: string }
   const bannerVideo = props.bannerVideo as string
-  const highlights = (props.highlights as Array<{ title?: string }>) || []
+  const highlights = (props.highlights as Array<{ title?: unknown }>) || []
 
   return (
     <Section className="relative overflow-hidden bg-nh-blue-light pt-24 pb-16">
       <FadeIn>
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <h1 className="mb-6 text-5xl font-medium tracking-tight max-sm:text-4xl">
-              <BracketHighlight text={title} />
-            </h1>
+            <BlockTitle className="nh-hero-title mb-6" data={props.title} />
             {description && <p className="mb-8 text-lg text-black/70">{description}</p>}
             {highlights.length > 0 && (
               <ul className="mb-8 flex flex-wrap gap-3">
@@ -29,7 +28,7 @@ export const HomeHeroBlock: React.FC<AnyBlock> = (props) => {
                     key={i}
                     className="rounded-full bg-white px-4 py-2 text-sm font-medium shadow-sm"
                   >
-                    {h.title}
+                    {getPlainTextFromLexical(h.title)}
                   </li>
                 ))}
               </ul>

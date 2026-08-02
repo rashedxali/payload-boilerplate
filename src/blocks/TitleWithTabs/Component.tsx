@@ -3,18 +3,20 @@
 import React, { useState } from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
+import { getPlainTextFromLexical } from '@/utilities/getPlainTextFromLexical'
 
-type AnyBlock = Record<string, any>
+type AnyBlock = Record<string, unknown>
 
 export const TitleWithTabsBlock: React.FC<AnyBlock> = (props) => {
-  const tabs = (props.tabs as Array<{ title?: string; description?: string }>) || []
+  const tabs = (props.tabs as Array<{ title?: unknown; description?: string }>) || []
   const [active, setActive] = useState(0)
 
   return (
     <Section>
       <FadeIn>
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="nh-section-title mb-0">{props.title as string}</h2>
+          <BlockTitle className="nh-section-title mb-0" data={props.title} />
           <NHButton href={props.buttonUrl as string}>{props.buttonTitle as string}</NHButton>
         </div>
         <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
@@ -28,12 +30,12 @@ export const TitleWithTabsBlock: React.FC<AnyBlock> = (props) => {
                 }`}
                 onClick={() => setActive(i)}
               >
-                {tab.title}
+                {getPlainTextFromLexical(tab.title)}
               </button>
             ))}
           </div>
           <div className="rounded-2xl border border-black/10 p-8">
-            <h3 className="mb-4 text-2xl">{tabs[active]?.title}</h3>
+            <BlockTitle className="mb-4 text-2xl" data={tabs[active]?.title} />
             <p className="text-black/70">{tabs[active]?.description}</p>
           </div>
         </div>

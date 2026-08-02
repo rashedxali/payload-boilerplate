@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { optionalText } from '@/blocks/shared/fields'
+import { optionalText, optionalTitle } from '@/blocks/shared/fields'
 
 export const NumbersSection: Block = {
   slug: 'numbersSection',
@@ -10,7 +10,7 @@ export const NumbersSection: Block = {
   },
   labels: { singular: 'Numbers Section', plural: 'Numbers Sections' },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('description', 'Description', true),
     {
       name: 'cards',

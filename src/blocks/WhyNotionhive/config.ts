@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { optionalText, optionalUpload } from '@/blocks/shared/fields'
+import { optionalText, optionalTitle, optionalUpload } from '@/blocks/shared/fields'
 
 export const WhyNotionhive: Block = {
   slug: 'whyNotionhive',
@@ -10,13 +10,13 @@ export const WhyNotionhive: Block = {
     disableBlockName: true,
   },
   fields: [
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalUpload('centerIcon', 'Center Icon'),
     {
       name: 'cards',
       type: 'array',
       fields: [
-        optionalText('title', 'Title'),
+        optionalTitle('title', 'Title'),
         optionalText('description', 'Description', true),
         optionalUpload('icon', 'Icon'),
       ],

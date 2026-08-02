@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -13,7 +14,7 @@ export const NumbersSectionBlock: React.FC<AnyBlock> = (props) => {
   return (
     <Section>
       <FadeIn>
-        <h2 className="nh-section-title">{props.title as string}</h2>
+        <BlockTitle className="nh-section-title" data={props.title} />
         <p className="mb-10 max-w-3xl text-black/70">{props.description as string}</p>
         <div className="grid gap-6 md:grid-cols-3">
           {cards.map((card, i) => (

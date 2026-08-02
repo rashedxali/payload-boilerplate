@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { MediaImage, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -13,12 +14,12 @@ export const WhyNotionhiveBlock: React.FC<AnyBlock> = (props) => {
   return (
     <Section>
       <FadeIn>
-        <h2 className="nh-section-title text-center">{props.title as string}</h2>
+        <BlockTitle className="nh-section-title text-center" data={props.title} />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => (
             <div key={i} className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
               <MediaImage resource={card.icon} className="mb-4 h-12 w-12" />
-              <h3 className="mb-3 text-xl">{card.title}</h3>
+              <BlockTitle className="mb-3 text-xl" data={card.title} />
               <p className="text-black/70">{card.description}</p>
             </div>
           ))}

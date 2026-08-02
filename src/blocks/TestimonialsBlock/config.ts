@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buttonGroup, optionalText, optionalUpload } from '@/blocks/shared/fields'
+import { buttonGroup, optionalText, optionalTitle, optionalUpload } from '@/blocks/shared/fields'
 
 export const TestimonialsBlock: Block = {
   slug: 'testimonialsBlock',
@@ -19,7 +19,7 @@ export const TestimonialsBlock: Block = {
         { label: 'Slider', value: 'slider' },
       ],
     },
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('customClass', 'Custom CSS Class'),
     buttonGroup('button'),
     {

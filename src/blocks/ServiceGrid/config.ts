@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { buttonGroup, optionalText } from '@/blocks/shared/fields'
+import { buttonGroup, optionalText, optionalTitle } from '@/blocks/shared/fields'
 
 export const ServiceGrid: Block = {
   slug: 'serviceGrid',
@@ -20,7 +20,7 @@ export const ServiceGrid: Block = {
         { label: 'Simple', value: 'simple' },
       ],
     },
-    optionalText('title', 'Title'),
+    optionalTitle('title', 'Title'),
     optionalText('subtitle', 'Subtitle'),
     optionalText('customClass', 'Custom CSS Class'),
     buttonGroup('button'),
@@ -28,7 +28,7 @@ export const ServiceGrid: Block = {
       name: 'items',
       type: 'array',
       fields: [
-        optionalText('title', 'Title'),
+        optionalTitle('title', 'Title'),
         optionalText('subtitle', 'Subtitle'),
         optionalText('description', 'Description', true),
         optionalText('buttonTitle', 'Button Title'),

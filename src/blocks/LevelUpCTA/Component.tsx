@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { MediaImage, NHButton, Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -14,7 +15,7 @@ export const LevelUpCTABlock: React.FC<AnyBlock> = (props) => {
       <FadeIn>
         <div className="grid items-center gap-10 overflow-hidden rounded-3xl bg-nh-blue-light lg:grid-cols-2">
           <div className="p-10">
-            <h2 className="nh-section-title">{props.title as string}</h2>
+            <BlockTitle className="nh-section-title" data={props.title} />
             <p className="mb-8 text-black/70">{props.description as string}</p>
             <NHButton href={button?.href}>{button?.text}</NHButton>
           </div>

@@ -3,6 +3,7 @@
 import React from 'react'
 import { FadeIn } from '@/components/FadeIn'
 import { Section } from '@/blocks/shared/ui'
+import { BlockTitle } from '@/blocks/shared/BlockTitle'
 
 type AnyBlock = Record<string, any>
 
@@ -15,7 +16,7 @@ export const OurProcessBlock: React.FC<AnyBlock> = (props) => {
   return (
     <Section className="bg-nh-gray">
       <FadeIn>
-        <h2 className="nh-section-title">{props.title as string}</h2>
+        <BlockTitle className="nh-section-title" data={props.title} />
         {(props.description as string) && (
           <p className="mb-10 max-w-3xl text-black/70">{props.description as string}</p>
         )}
@@ -25,7 +26,7 @@ export const OurProcessBlock: React.FC<AnyBlock> = (props) => {
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-nh-blue text-white">
                 {i + 1}
               </div>
-              <h3 className="mb-2 text-lg font-medium">{card.title}</h3>
+              <BlockTitle className="mb-2 text-lg font-medium" data={card.title} />
               <p className="text-sm text-black/70">{card.description}</p>
             </div>
           ))}
