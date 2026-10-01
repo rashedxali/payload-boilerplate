@@ -1,8 +1,31 @@
 # Developer Guide
 
-This repo is a **Next.js + Payload CMS 3** website. Content is managed in the admin panel; the frontend is built from collections, layout blocks, globals, and forms.
+This repo is a **Next.js + Payload CMS 3** website boilerplate. Content is managed in the admin panel; the frontend is built from collections, layout blocks, globals, and forms.
 
-For deeper Payload API reference, see [`AGENTS.md`](AGENTS.md) and [`.agents/skills/payload/`](.agents/skills/payload/).
+AI agents: start at [`AGENTS.md`](AGENTS.md). It requires asking the user before building ([`.agents/ASKING.md`](.agents/ASKING.md)), reading the brand ([`brand/`](brand/)) and following the project patterns ([`.agents/README.md`](.agents/README.md)).
+
+---
+
+## Start a new project from this boilerplate
+
+Not a developer? Follow [`GETTING_STARTED.md`](GETTING_STARTED.md): a step-by-step guide covering the tools, the Neon database, Resend, reCAPTCHA and the first login.
+
+With an AI agent: open the repo and say **"get started"**. The agent follows [`.agents/GETTING_STARTED.md`](.agents/GETTING_STARTED.md): it replaces the git remote, applies your brand to the global styles, checks `.env`, seeds the admin user and tells you how to run the project.
+
+By hand:
+
+1. `cp .env.example .env` and fill in the required variables (see [Setup](#setup)).
+2. `bun install`
+3. `bun run dev` — starts the site and creates the database schema.
+4. `bun run seed` — creates the admin user from `ADMIN_DEFAULT_USER_*`.
+5. Set up the brand in [`brand/`](brand/):
+   - fill in [`brand/about.md`](brand/about.md) and remove its `Status: TEMPLATE` line;
+   - adjust [`brand/colors.md`](brand/colors.md) and the matching `--color-brand-*` tokens in `src/app/(frontend)/globals.css`;
+   - adjust [`brand/fonts.md`](brand/fonts.md) and the font import in `src/app/(frontend)/layout.tsx`.
+6. In the admin panel, open **Settings** and set the site name, logo, favicon and default SEO values.
+7. Optional: add Resend and reCAPTCHA keys under **Settings → Integrations**.
+
+From here, ask the agent for sections and post types. It will ask how the data should be modelled before it writes code.
 
 ---
 
@@ -36,7 +59,7 @@ For deeper Payload API reference, see [`AGENTS.md`](AGENTS.md) and [`.agents/ski
 
    Optional integrations are configured in the admin panel under **Settings → Integrations**, with env variables as a fallback (see `.env.example`):
 
-   - **Resend email** (`RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME`): without an API key no email is sent; form submissions and newsletter subscribers are still recorded in the CMS.
+   - **Resend email** (`RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME`): without an API key and a from address no email is sent; form submissions and newsletter subscribers are still recorded in the CMS.
    - **Invisible reCAPTCHA v2** (`NEXT_PUBLIC_RECAPTCHA_SITE_KEY`, `RECAPTCHA_SECRET_KEY`): disabled unless both keys are set; forms work normally without it.
 
 3. Install and run:
@@ -77,10 +100,20 @@ For deeper Payload API reference, see [`AGENTS.md`](AGENTS.md) and [`.agents/ski
 ## Repo map
 
 ```
+AGENTS.md                      # Entry point for AI agents (CLAUDE.md imports it)
+.agents/
+├── GETTING_STARTED.md         # Setup flow an agent runs when asked to "get started"
+├── ASKING.md                  # Questions an agent must ask before building
+├── README.md                  # How to create blocks and post types in this repo
+└── skills/                    # Payload and frontend design skills
+brand/
+├── about.md                   # Who the brand is, audience, voice
+├── colors.md                  # Color tokens and usage rules
+└── fonts.md                   # Typefaces and type scale
 src/
 ├── payload.config.ts          # App entry: collections, globals, plugins, DB
 ├── payload-types.ts           # Auto-generated TypeScript types (do not edit by hand)
-├── collections/               # Content types (Pages, Blogs, Services, …)
+├── collections/               # Content types (Pages, Blogs, Media, …)
 ├── blocks/                    # Layout builder blocks (admin schema + frontend UI)
 │   ├── layoutBlocks.ts        # Admin registry of all layout blocks
 │   ├── RenderBlocks.tsx       # Frontend blockType → React component map
@@ -149,7 +182,7 @@ Prefer shared field helpers from [`src/blocks/shared/fields.ts`](src/blocks/shar
 - `optionalUpload()` — media upload
 - `buttonGroup()` — CTA text + URL + target
 
-Render titles with [`BlockTitle`](src/blocks/shared/BlockTitle.tsx). Use [`Section`](src/blocks/shared/ui.tsx), `NHButton`, `MediaImage`, etc. for consistent layout.
+Render titles with [`BlockTitle`](src/blocks/shared/BlockTitle.tsx). Use [`Section`](src/blocks/shared/ui.tsx), `ButtonLink`, `MediaImage`, etc. for consistent layout.
 
 ### Frontend (`Component.tsx`)
 
@@ -171,7 +204,7 @@ Blocks are **not** registered in `payload.config.ts`. You register them in two p
 // RenderBlocks.tsx
 const blockComponents = {
   contactUsSection: ContactUsSectionBlock,
-  homeHero: HomeHeroBlock,
+  testimonialsBlock: TestimonialsBlock,
   // slug must match config.ts exactly
 }
 ```
@@ -185,14 +218,18 @@ Collections with a `layout` field of type `blocks` use `layoutBlocks`:
 | Collection | Config | Notes |
 | --- | --- | --- |
 | Pages | [`src/collections/Pages/index.ts`](src/collections/Pages/index.ts) | `contentMode: 'layout'` (default) or `'text'` for rich-text-only pages |
-| Services | [`src/collections/Services/index.ts`](src/collections/Services/index.ts) | Layout required |
-| Our Work | [`src/collections/OurWork/index.ts`](src/collections/OurWork/index.ts) | Layout required |
 
 Frontend routes render layouts via `<RenderBlocks blocks={layout} />`:
 
 - [`src/app/(frontend)/[slug]/page.tsx`](src/app/(frontend)/[slug]/page.tsx) — pages
-- [`src/app/(frontend)/services/[slug]/page.tsx`](src/app/(frontend)/services/[slug]/page.tsx) — services
-- [`src/app/(frontend)/our-work/[slug]/page.tsx`](src/app/(frontend)/our-work/[slug]/page.tsx) — case studies
+
+### Blocks in this project
+
+| Block | Demonstrates |
+| --- | --- |
+| `TestimonialsBlock` | `select` variant, `array` of items with uploads, button group |
+| `ContactUsSection` | `relationship` to `forms`, `array` list |
+| `FeaturedBlogPost` | single `relationship` to `blogs` |
 
 ### Edit an existing block
 
@@ -207,7 +244,7 @@ Frontend routes render layouts via `<RenderBlocks blocks={layout} />`:
 2. Import and append the config to `layoutBlocks` in [`src/blocks/layoutBlocks.ts`](src/blocks/layoutBlocks.ts)
 3. Import the component and add `myBlock: MyBlockBlock` to `blockComponents` in [`src/blocks/RenderBlocks.tsx`](src/blocks/RenderBlocks.tsx)
 4. Run `bun run generate:types`
-5. In admin, open a Page / Service / Our Work doc → add **My Block** to the layout
+5. In admin, open a Page → add **My Block** to the layout
 
 ### Rename or remove a block
 
@@ -228,11 +265,9 @@ Registered in [`src/payload.config.ts`](src/payload.config.ts):
 | --- | --- | --- | --- |
 | Pages | `pages` | `src/collections/Pages/` | Marketing / static pages (blocks or text mode) |
 | Blogs | `blogs` | `src/collections/Blogs/` | Blog posts (rich text content) |
-| Services | `services` | `src/collections/Services/` | Service detail pages (block layout) |
-| Our Work | `our-work` | `src/collections/OurWork/` | Case studies (block layout) |
-| Guides | `guides` | `src/collections/Guides/` | Guides |
 | Media | `media` | `src/collections/Media.ts` | Uploads (images, files) |
 | Categories | `categories` | `src/collections/Categories.ts` | Taxonomy (nested docs) |
+| Newsletter Subscribers | `newsletter-subscribers` | `src/collections/NewsletterSubscribers.ts` | Emails collected by the footer newsletter form |
 | Users | `users` | `src/collections/Users/` | Admin authentication |
 
 **Plugin collections** (from [`src/plugins/index.ts`](src/plugins/index.ts)):
@@ -264,12 +299,16 @@ Example — Pages ([`src/collections/Pages/index.ts`](src/collections/Pages/inde
 
 ### Pages vs Blogs content model
 
-| | Pages / Services / Our Work | Blogs |
+| | Pages | Blogs |
 | --- | --- | --- |
 | Primary content | Block `layout` array | Rich text `content` |
 | Layout builder | Yes | No |
 | SEO plugin fields | Yes | Yes |
 | Drafts / preview | Yes | Yes |
+
+### Add a post type
+
+Blogs is the reference post type. The full step-by-step (config, revalidation hook, URL registry, sitemap, routes) is in [`.agents/README.md`](.agents/README.md#2-creating-a-post-type).
 
 ### Add a field
 
@@ -395,6 +434,7 @@ Edit under **Admin → Configuration → Settings**:
 | SEO | Default meta, robots.txt / llms.txt, sitemap toggle |
 | Analytics | GTM, GA4, Meta Pixel, Clarity |
 | Maintenance | Maintenance mode message |
+| Integrations | Resend email and invisible reCAPTCHA keys (env variables as fallback) |
 | Custom code | Head/body HTML snippets |
 
 Header and Footer globals define navigation via shared link fields (`src/fields/link`).
@@ -432,7 +472,7 @@ When working on this repo, use this quick reference:
 
 This project also includes:
 
-- **Drafts and live preview** — Pages, Blogs, Services, Our Work support draft mode and preview URLs
+- **Drafts and live preview** — Pages and Blogs support draft mode and preview URLs
 - **On-demand revalidation** — collection/global hooks revalidate Next.js cache on publish
 - **SEO plugin** — meta fields on Pages and Blogs; defaults from Settings
 - **Redirects plugin** — manage redirects in admin

@@ -15,11 +15,11 @@ export const ContactUsSectionBlock: React.FC<Record<string, unknown>> = (props) 
   const formDoc = typeof form === 'object' && form !== null ? (form as Form) : null
 
   return (
-    <Section className="bg-nh-blue text-white">
+    <Section className="bg-brand-primary text-white">
       <FadeIn>
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <BlockTitle className="nh-section-title text-white" data={title} />
+            <BlockTitle className="section-title text-white" data={title} />
             {description && <p className="mb-8 text-white/80">{description}</p>}
             {listItems && listItems.length > 0 && (
               <ul className="space-y-3">
@@ -33,13 +33,11 @@ export const ContactUsSectionBlock: React.FC<Record<string, unknown>> = (props) 
             )}
           </div>
 
-          <div>
-            {formDoc ? (
+          {formDoc && (
+            <div>
               <PayloadForm form={formDoc} />
-            ) : (
-              <p className="text-white/70">Select a form in the admin panel to display it here.</p>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </FadeIn>
     </Section>

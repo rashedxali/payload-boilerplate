@@ -25,7 +25,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 const linkFeature = LinkFeature({
-  enabledCollections: ['pages', 'blogs', 'services', 'our-work'],
+  enabledCollections: ['pages', 'blogs'],
   fields: ({ defaultFields }) => {
     const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
       if ('name' in field && field.name === 'url') return false

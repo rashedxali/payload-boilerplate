@@ -54,7 +54,7 @@ export default async function BlogCategoryPage({ params }: Args) {
                   <Media resource={post.heroImage} className="aspect-[16/10]" />
                 )}
                 <div className="p-6">
-                  <h2 className="text-xl group-hover:text-nh-blue">{post.title}</h2>
+                  <h2 className="text-xl group-hover:text-brand-primary">{post.title}</h2>
                 </div>
               </Link>
             ))}

@@ -19,9 +19,9 @@ type Args = {
 
 /**
  * Collections this factory serves. `pages` owns the root route and its own home-slug
- * handling; `guides` renders a file download rather than a content document.
+ * handling, so it is excluded.
  */
-type ContentCollection = Extract<DocumentCollection, 'blogs' | 'services' | 'our-work'>
+type ContentCollection = Exclude<DocumentCollection, 'pages'>
 
 type DocumentOf<T extends ContentCollection> = Config['collections'][T]
 

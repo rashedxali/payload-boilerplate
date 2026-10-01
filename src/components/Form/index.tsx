@@ -142,7 +142,7 @@ export const PayloadForm: React.FC<Props> = ({ className, form }) => {
       <Button
         type="submit"
         disabled={isLoading}
-        className="rounded-full bg-white px-6 text-nh-blue hover:bg-white/90"
+        className="rounded-full bg-white px-6 text-brand-primary hover:bg-white/90"
       >
         {isLoading ? 'Sending...' : submitButtonLabel || 'Submit'}
       </Button>

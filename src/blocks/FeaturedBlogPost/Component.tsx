@@ -19,8 +19,8 @@ export const FeaturedBlogPostBlock: React.FC<AnyBlock> = (props) => {
         <Link href={getDocumentPath(post.slug, 'blogs')} className="group grid gap-8 overflow-hidden rounded-2xl border border-black/10 lg:grid-cols-2">
           <MediaImage resource={post.heroImage as number} className="aspect-[16/10]" />
           <div className="flex flex-col justify-center p-8">
-            <p className="mb-2 text-sm font-medium text-nh-blue">Featured</p>
-            <h2 className="text-3xl group-hover:text-nh-blue">
+            <p className="mb-2 text-sm font-medium text-brand-primary">Featured</p>
+            <h2 className="text-3xl group-hover:text-brand-primary">
               {getPlainTextFromLexical(post.title)}
             </h2>
           </div>

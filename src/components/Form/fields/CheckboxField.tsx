@@ -28,7 +28,7 @@ export const CheckboxField: React.FC<FormFieldComponentProps & CheckboxFieldType
               id={name}
               checked={Boolean(value)}
               onCheckedChange={(checked) => onChange(checked === true)}
-              className="border-white/40 data-[state=checked]:bg-white data-[state=checked]:text-nh-blue"
+              className="border-white/40 data-[state=checked]:bg-white data-[state=checked]:text-brand-primary"
             />
             <Label htmlFor={name} className="text-white">
               {label}

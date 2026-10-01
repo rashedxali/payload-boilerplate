@@ -3,28 +3,20 @@ import type { Setting } from '@/payload-types'
 import { getCachedSettings } from './getSettings'
 import { getImageURL } from './getImageURL'
 
-const FALLBACK_SITE_NAME = 'Payload Website Template'
-const FALLBACK_DESCRIPTION = 'An open-source website built with Payload and Next.js.'
-const FALLBACK_SUFFIX = '| Payload Website Template'
-
+/** Site-wide SEO values from the Settings global. Anything not set there stays empty. */
 export type SeoDefaults = {
-  defaultDescription: string
-  defaultOgImageUrl: string
+  defaultDescription?: string
+  defaultOgImageUrl?: string
   siteName: string
   titleSuffix: string
 }
 
 export function resolveSeoDefaults(settings: Setting): SeoDefaults {
-  const siteName = settings.general?.siteName?.trim() || FALLBACK_SITE_NAME
-  const titleSuffix = settings.seo?.defaultTitleSuffix?.trim() || FALLBACK_SUFFIX
-  const defaultDescription = settings.seo?.defaultMetaDescription?.trim() || FALLBACK_DESCRIPTION
-  const defaultOgImageUrl = getImageURL(settings.seo?.defaultOgImage)
-
   return {
-    defaultDescription,
-    defaultOgImageUrl,
-    siteName,
-    titleSuffix,
+    defaultDescription: settings.seo?.defaultMetaDescription?.trim() || undefined,
+    defaultOgImageUrl: getImageURL(settings.seo?.defaultOgImage),
+    siteName: settings.general?.siteName?.trim() || '',
+    titleSuffix: settings.seo?.defaultTitleSuffix?.trim() || '',
   }
 }
 

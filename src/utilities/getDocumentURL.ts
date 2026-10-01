@@ -5,7 +5,7 @@ import { getServerSideURL } from './getURL'
  * from a route segment named after its slug, so paths are derived rather than mapped.
  * `pages` is the exception: it owns the root.
  */
-export const documentCollections = ['pages', 'blogs', 'services', 'our-work', 'guides'] as const
+export const documentCollections = ['pages', 'blogs'] as const
 
 export type DocumentCollection = (typeof documentCollections)[number]
 

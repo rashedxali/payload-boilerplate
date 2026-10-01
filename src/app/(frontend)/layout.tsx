@@ -92,7 +92,6 @@ export async function generateMetadata(): Promise<Metadata> {
     title: seoDefaults.siteName,
     twitter: {
       card: 'summary_large_image',
-      creator: '@payloadcms',
     },
   }
 }

@@ -13,26 +13,24 @@ export type RecaptchaConfig = {
   siteKey: string
 }
 
-export const DEFAULT_FROM_ADDRESS = 'onboarding@resend.dev'
-export const DEFAULT_FROM_NAME = 'Payload CMS'
-
 const clean = (value?: null | string): string => value?.trim() || ''
 
 /**
- * Resolves Resend config: Settings global first, then env. Returns null when no API key
- * is available, which means email sending is disabled.
+ * Resolves Resend config: Settings global first, then env. Returns null when the API key
+ * or the from address is missing, which means email sending is disabled.
  */
 export const resolveEmailConfig = (settings?: null | Setting): EmailConfig | null => {
   const email = settings?.integrations?.email
   const apiKey = clean(email?.resendApiKey) || clean(process.env.RESEND_API_KEY)
 
-  if (!apiKey) return null
+  const fromAddress = clean(email?.fromAddress) || clean(process.env.EMAIL_FROM_ADDRESS)
+
+  if (!apiKey || !fromAddress) return null
 
   return {
     apiKey,
-    fromAddress:
-      clean(email?.fromAddress) || clean(process.env.EMAIL_FROM_ADDRESS) || DEFAULT_FROM_ADDRESS,
-    fromName: clean(email?.fromName) || clean(process.env.EMAIL_FROM_NAME) || DEFAULT_FROM_NAME,
+    fromAddress,
+    fromName: clean(email?.fromName) || clean(process.env.EMAIL_FROM_NAME),
   }
 }
 

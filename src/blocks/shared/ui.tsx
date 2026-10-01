@@ -10,12 +10,12 @@ export const Section: React.FC<{
   className?: string
   id?: string
 }> = ({ children, className, id }) => (
-  <section id={id} className={cn('nh-section', className)}>
+  <section id={id} className={cn('section', className)}>
     <div className="container">{children}</div>
   </section>
 )
 
-export const NHButton: React.FC<{
+export const ButtonLink: React.FC<{
   href?: string
   children: React.ReactNode
   variant?: 'primary' | 'outline'
@@ -25,7 +25,7 @@ export const NHButton: React.FC<{
   return (
     <Link
       href={href}
-      className={cn(variant === 'primary' ? 'nh-btn-primary' : 'nh-btn-outline', className)}
+      className={cn(variant === 'primary' ? 'btn-primary' : 'btn-outline', className)}
     >
       {children}
     </Link>
@@ -57,23 +57,5 @@ export const MediaImage: React.FC<{
       className={className}
       imgClassName={cn('w-full h-auto object-cover', imgClassName)}
     />
-  )
-}
-
-export function BracketHighlight({ text }: { text?: string | null }) {
-  if (!text) return null
-  const parts = text.split(/(\[[^\]]+\])/g)
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.startsWith('[') && part.endsWith(']') ? (
-          <span key={i} className="text-nh-blue">
-            {part.slice(1, -1)}
-          </span>
-        ) : (
-          <span key={i} dangerouslySetInnerHTML={{ __html: part }} />
-        ),
-      )}
-    </>
   )
 }

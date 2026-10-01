@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 
 import { FadeIn } from '@/components/FadeIn'
-import { NHButton } from '@/blocks/shared/ui'
+import { ButtonLink } from '@/blocks/shared/ui'
 
 export const metadata: Metadata = {
   title: 'Thank You',
-  description: 'Thank you for contacting Notionhive Canada.',
+  description: 'Thank you for contacting us.',
 }
 
 export default function ThankYouPage() {
@@ -16,7 +16,7 @@ export default function ThankYouPage() {
         <p className="mb-8 text-lg text-black/70">
           We&apos;ve received your message and will get back to you shortly.
         </p>
-        <NHButton href="/">Back to Home</NHButton>
+        <ButtonLink href="/">Back to Home</ButtonLink>
       </FadeIn>
     </div>
   )

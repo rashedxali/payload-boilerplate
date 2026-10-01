@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="193" height="34" viewBox="0 0 193 34" fill="none" role="img" aria-label="Your Logo">
+  <rect x="1" y="1" width="32" height="32" rx="8" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="17" cy="17" r="7" fill="#ffffff"/>
+  <text x="46" y="24" fill="#ffffff" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="-0.2">Your Logo</text>
+</svg>

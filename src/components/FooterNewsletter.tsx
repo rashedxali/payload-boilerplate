@@ -52,7 +52,7 @@ export const FooterNewsletter: React.FC = () => {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="rounded-lg bg-nh-blue px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="rounded-lg bg-brand-primary px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
       >
         {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
       </button>

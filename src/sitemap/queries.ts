@@ -37,8 +37,7 @@ function getExtraSitemapEntries(
 
   const archivePath = getCollectionPath(collection)
 
-  // Guides only have per-document download pages, not a collection archive route.
-  if (archivePath === '/' || collection === 'guides') {
+  if (archivePath === '/') {
     return []
   }
 

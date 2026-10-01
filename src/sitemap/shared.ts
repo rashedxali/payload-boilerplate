@@ -1,11 +1,12 @@
 import type { Where } from 'payload'
 
 import type { DocumentCollection } from '@/utilities/getDocumentURL'
+import { getServerSideURL } from '@/utilities/getURL'
 import { getCachedSettings } from '@/utilities/getSettings'
 import { isSitemapEnabled } from '@/utilities/buildRobotsTxt'
 
 /** Collections with SEO plugin `meta.robots` — used to filter noindex docs from sitemaps. */
-export const sitemapSeoCollections = ['pages', 'blogs', 'services', 'our-work'] as const satisfies readonly DocumentCollection[]
+export const sitemapSeoCollections = ['pages', 'blogs'] as const satisfies readonly DocumentCollection[]
 
 export type SitemapSeoCollection = (typeof sitemapSeoCollections)[number]
 
@@ -26,11 +27,7 @@ export async function getSitemapSettingsResponse(): Promise<Response | null> {
 }
 
 export function getSiteURL(): string {
-  return (
-    process.env.NEXT_PUBLIC_SERVER_URL ||
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-    'https://example.com'
-  )
+  return getServerSideURL()
 }
 
 export const indexableRobotsWhere: Where = {

@@ -10,9 +10,6 @@ export type SitemapCollectionResource = {
 const collectionTitles: Record<DocumentCollection, string> = {
   pages: 'Pages',
   blogs: 'Blogs',
-  services: 'Services',
-  'our-work': 'Our Work',
-  guides: 'Guides',
 }
 
 /** Frontend document collections included in the sitemap index. Add collections in getDocumentURL.ts. */

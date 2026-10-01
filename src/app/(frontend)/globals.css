@@ -46,13 +46,13 @@
   --font-mono: var(--font-geist-mono);
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
 
-  /* Notionhive brand tokens (from nh-canada-front SCSS) */
-  --color-nh-black: #000000;
-  --color-nh-white: #ffffff;
-  --color-nh-blue: #1158e5;
-  --color-nh-gray: #f2f2f2;
-  --color-nh-gray-dark: #4d4d4d;
-  --color-nh-blue-light: #f0f6ff;
+  /* Brand tokens. Keep in sync with brand/colors.md */
+  --color-brand-black: #000000;
+  --color-brand-white: #ffffff;
+  --color-brand-primary: #1158e5;
+  --color-brand-gray: #f2f2f2;
+  --color-brand-gray-dark: #4d4d4d;
+  --color-brand-primary-light: #f0f6ff;
 }
 
 @layer utilities {
@@ -243,24 +243,24 @@
 }
 
 @layer components {
-  .nh-section {
+  .section {
     @apply py-16 md:py-24;
   }
 
-  .nh-section-title :is(h1, h2, h3, h4) {
+  .section-title :is(h1, h2, h3, h4) {
     @apply text-4xl font-normal tracking-tight mb-6 max-sm:text-[2rem];
   }
 
-  .nh-hero-title :is(h1, h2, h3, h4) {
+  .hero-title :is(h1, h2, h3, h4) {
     @apply text-5xl font-medium tracking-tight max-sm:text-4xl m-0;
   }
 
-  .nh-btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-nh-blue px-6 py-3 text-sm font-medium text-white transition hover:bg-nh-blue/90;
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-brand-primary px-6 py-3 text-sm font-medium text-white transition hover:bg-brand-primary/90;
   }
 
-  .nh-btn-outline {
-    @apply inline-flex items-center justify-center rounded-full border border-nh-blue px-6 py-3 text-sm font-medium text-nh-blue transition hover:bg-nh-blue-light;
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-full border border-brand-primary px-6 py-3 text-sm font-medium text-brand-primary transition hover:bg-brand-primary-light;
   }
 }
 

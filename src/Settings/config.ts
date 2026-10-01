@@ -103,7 +103,6 @@ export const Settings: GlobalConfig = {
                 {
                   name: 'defaultTitleSuffix',
                   type: 'text',
-                  defaultValue: '| Notionhive',
                   admin: {
                     description: 'Appended to page titles when no custom SEO title is set.',
                   },
@@ -152,7 +151,7 @@ export const Settings: GlobalConfig = {
                   label: 'Sitemap',
                   admin: {
                     description:
-                      'Enable or disable public sitemap access. When enabled, /sitemap.xml lists one child sitemap per frontend collection (pages, blogs, services, our-work, guides).',
+                      'Enable or disable public sitemap access. When enabled, /sitemap.xml lists one child sitemap per frontend collection (pages, blogs).',
                   },
                   fields: [
                     {
@@ -264,7 +263,7 @@ export const Settings: GlobalConfig = {
                   label: 'Email (Resend)',
                   admin: {
                     description:
-                      'Leave a field empty to use its env variable. Without an API key in either place no email is sent; form submissions are still recorded.',
+                      'Leave a field empty to use its env variable. Without an API key and a from address no email is sent; form submissions are still recorded.',
                   },
                   fields: [
                     {

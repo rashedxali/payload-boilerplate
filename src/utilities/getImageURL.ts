@@ -2,17 +2,13 @@ import type { Media } from '@/payload-types'
 
 import { getServerSideURL } from './getURL'
 
-export const getImageURL = (
-  image?: Media | number | null,
-  fallback = '/website-template-OG.webp',
-) => {
-  const serverUrl = getServerSideURL()
-
-  if (image && typeof image === 'object' && 'url' in image) {
+/** Absolute URL of a populated media document, or undefined when there is no image. */
+export const getImageURL = (image?: Media | number | null): string | undefined => {
+  if (image && typeof image === 'object' && 'url' in image && image.url) {
     const ogUrl = image.sizes?.og?.url
 
-    return ogUrl ? serverUrl + ogUrl : serverUrl + image.url
+    return getServerSideURL() + (ogUrl || image.url)
   }
 
-  return serverUrl + fallback
+  return undefined
 }
