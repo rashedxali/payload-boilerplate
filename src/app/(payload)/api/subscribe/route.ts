@@ -1,46 +1,42 @@
+import configPromise from '@payload-config'
 import { NextResponse } from 'next/server'
+import { getPayload } from 'payload'
+import isEmail from 'validator/lib/isEmail'
+
+import { verifyRecaptcha } from '@/utilities/getIntegrationsConfig'
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json()
+    const body = await request.json()
+    const email = typeof body?.email === 'string' ? body.email.trim().toLowerCase() : ''
+    const token = typeof body?.token === 'string' ? body.token : null
 
-    if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+    if (!email || !isEmail(email)) {
+      return NextResponse.json({ error: 'A valid email is required' }, { status: 400 })
     }
 
-    const apiKey = process.env.MAILCHIMP_API_KEY
-    const audienceId = process.env.MAILCHIMP_AUDIENCE_ID
-    const server = process.env.MAILCHIMP_API_SERVER
+    const payload = await getPayload({ config: configPromise })
 
-    if (!apiKey || !audienceId || !server) {
+    if (!(await verifyRecaptcha(payload, token))) {
       return NextResponse.json(
-        { error: 'Newsletter service is not configured' },
-        { status: 503 },
+        { error: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 400 },
       )
     }
 
-    const response = await fetch(
-      `https://${server}.api.mailchimp.com/3.0/lists/${audienceId}/members`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `apikey ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email_address: email,
-          status: 'subscribed',
-        }),
-      },
-    )
+    const existing = await payload.find({
+      collection: 'newsletter-subscribers',
+      depth: 0,
+      limit: 1,
+      where: { email: { equals: email } },
+    })
 
-    const data = await response.json()
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: data.title || 'Subscription failed' },
-        { status: response.status },
-      )
+    // Already subscribed is treated as success so the endpoint does not reveal subscribers.
+    if (existing.totalDocs === 0) {
+      await payload.create({
+        collection: 'newsletter-subscribers',
+        data: { email },
+      })
     }
 
     return NextResponse.json({ success: true })

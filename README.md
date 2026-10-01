@@ -11,7 +11,7 @@ For deeper Payload API reference, see [`AGENTS.md`](AGENTS.md) and [`.agents/ski
 ### Requirements
 
 - Node.js `^18.20.2` or `>=20.9.0`
-- pnpm `^9`–`^11`
+- [Bun](https://bun.sh) `>=1.2`
 - PostgreSQL
 
 ### Setup
@@ -26,37 +26,51 @@ For deeper Payload API reference, see [`AGENTS.md`](AGENTS.md) and [`.agents/ski
 
    | Variable | Purpose |
    | --- | --- |
-   | `DATABASE_URL` | **Postgres** connection string (this project uses `@payloadcms/db-postgres`, not Mongo) |
+   | `DATABASE_URL` | **Postgres** connection string (this project uses `@payloadcms/db-postgres`) |
    | `PAYLOAD_SECRET` | JWT encryption secret |
    | `NEXT_PUBLIC_SERVER_URL` | Public site URL, no trailing slash (e.g. `http://localhost:3000`) |
    | `PREVIEW_SECRET` | Draft/preview auth |
    | `CRON_SECRET` | Scheduled publish jobs |
+   | `ADMIN_DEFAULT_USER_EMAIL` | Email of the admin user created by `bun run seed` |
+   | `ADMIN_DEFAULT_USER_PASSWORD` | Password of the admin user created by `bun run seed` |
 
-   Optional: `RESEND_API_KEY`, `EMAIL_FROM_*`, Mailchimp, reCAPTCHA keys (see `.env.example`).
+   Optional integrations are configured in the admin panel under **Settings → Integrations**, with env variables as a fallback (see `.env.example`):
+
+   - **Resend email** (`RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME`): without an API key no email is sent; form submissions and newsletter subscribers are still recorded in the CMS.
+   - **Invisible reCAPTCHA v2** (`NEXT_PUBLIC_RECAPTCHA_SITE_KEY`, `RECAPTCHA_SECRET_KEY`): disabled unless both keys are set; forms work normally without it.
 
 3. Install and run:
 
    ```bash
-   pnpm install
-   pnpm dev
+   bun install
+   bun run dev
    ```
 
-4. Open:
+4. Seed the admin user (optional). The database schema must exist first, so run this after `bun run dev` has started once or after `bun run payload migrate`:
+
+   ```bash
+   bun run seed
+   ```
+
+   This creates a user from `ADMIN_DEFAULT_USER_EMAIL` / `ADMIN_DEFAULT_USER_PASSWORD`. It is safe to re-run: an existing user with that email is left untouched.
+
+5. Open:
    - Frontend: `http://localhost:3000`
-   - Admin: `http://localhost:3000/admin` — create your first user on first visit
+   - Admin: `http://localhost:3000/admin` — log in with the seeded user, or create your first user on first visit
 
 ### Common commands
 
 | Command | Purpose |
 | --- | --- |
-| `pnpm dev` | Start Next.js + Payload in development |
-| `pnpm build` | Production build |
-| `pnpm start` | Run production server |
-| `pnpm generate:types` | Regenerate `src/payload-types.ts` after schema changes |
-| `pnpm generate:importmap` | Regenerate admin import map after custom admin components change |
-| `pnpm payload migrate:create` | Create a DB migration (Postgres) |
-| `pnpm payload migrate` | Run pending migrations |
-| `pnpm lint` | ESLint |
+| `bun run dev` | Start Next.js + Payload in development |
+| `bun run build` | Production build |
+| `bun run start` | Run production server |
+| `bun run generate:types` | Regenerate `src/payload-types.ts` after schema changes |
+| `bun run generate:importmap` | Regenerate admin import map after custom admin components change |
+| `bun run payload migrate:create` | Create a DB migration (Postgres) |
+| `bun run payload migrate` | Run pending migrations |
+| `bun run seed` | Create the default admin user from `ADMIN_DEFAULT_USER_*` |
+| `bun run lint` | ESLint |
 
 ---
 
@@ -184,7 +198,7 @@ Frontend routes render layouts via `<RenderBlocks blocks={layout} />`:
 
 1. Change fields in `src/blocks/<Name>/config.ts`
 2. Change UI in `src/blocks/<Name>/Component.tsx`
-3. Run `pnpm generate:types`
+3. Run `bun run generate:types`
 4. Test in admin (add block to a page layout) and on the frontend
 
 ### Add a new block
@@ -192,7 +206,7 @@ Frontend routes render layouts via `<RenderBlocks blocks={layout} />`:
 1. Create `src/blocks/MyBlock/config.ts` and `Component.tsx`
 2. Import and append the config to `layoutBlocks` in [`src/blocks/layoutBlocks.ts`](src/blocks/layoutBlocks.ts)
 3. Import the component and add `myBlock: MyBlockBlock` to `blockComponents` in [`src/blocks/RenderBlocks.tsx`](src/blocks/RenderBlocks.tsx)
-4. Run `pnpm generate:types`
+4. Run `bun run generate:types`
 5. In admin, open a Page / Service / Our Work doc → add **My Block** to the layout
 
 ### Rename or remove a block
@@ -274,7 +288,7 @@ Example — Pages ([`src/collections/Pages/index.ts`](src/collections/Pages/inde
 
 3. Use `admin: { position: 'sidebar' }` for sidebar fields
 4. Use `admin: { condition: ... }` for conditional visibility
-5. Run `pnpm generate:types`
+5. Run `bun run generate:types`
 6. Use the new field in the frontend (page component or block)
 
 For fields shared across many blocks, add helpers to `src/blocks/shared/fields.ts` instead of duplicating definitions.
@@ -283,16 +297,16 @@ For fields shared across many blocks, add helpers to `src/blocks/shared/fields.t
 
 1. Delete the field from the collection `fields` array
 2. Remove any frontend usage
-3. Run `pnpm generate:types`
+3. Run `bun run generate:types`
 4. For production Postgres, create and run a migration if the column must be dropped cleanly
 
 ### After schema changes
 
 ```bash
-pnpm generate:types          # Always after field/collection changes
-pnpm generate:importmap      # If you changed custom admin components
-pnpm payload migrate:create  # Production: create migration
-pnpm payload migrate         # Production: apply migrations
+bun run generate:types          # Always after field/collection changes
+bun run generate:importmap      # If you changed custom admin components
+bun run payload migrate:create  # Production: create migration
+bun run payload migrate         # Production: apply migrations
 ```
 
 In local dev, Payload can push schema changes to Postgres automatically; use migrations before deploying.
@@ -394,7 +408,7 @@ Header and Footer globals define navigation via shared link fields (`src/fields/
 ### Add or remove a Settings field
 
 1. Edit `fields` in [`src/Settings/config.ts`](src/Settings/config.ts) (or Header/Footer config)
-2. Run `pnpm generate:types`
+2. Run `bun run generate:types`
 3. Read the new value in the appropriate utility or layout component
 4. Add a revalidation hook if you introduce new cache tags
 
@@ -404,8 +418,8 @@ Header and Footer globals define navigation via shared link fields (`src/fields/
 
 When working on this repo, use this quick reference:
 
-1. **Schema change** → `pnpm generate:types`
-2. **Custom admin component** → `pnpm generate:importmap`
+1. **Schema change** → `bun run generate:types`
+2. **Custom admin component** → `bun run generate:importmap`
 3. **New layout block** → register in **both** `layoutBlocks.ts` and `RenderBlocks.tsx`; slug must match
 4. **Block titles** → use `optionalTitle()` and `<BlockTitle />` for consistent Lexical headings
 5. **Shared block fields** → extend `src/blocks/shared/fields.ts` instead of one-off copies

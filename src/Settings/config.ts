@@ -1,10 +1,13 @@
-import type { GlobalConfig } from 'payload'
+import type { FieldAccess, GlobalConfig } from 'payload'
 
 import { authenticated } from '@/access/authenticated'
 
 import { analyticsProviderField } from './fields/analyticsProvider'
 import { textFileControlField } from './fields/textFileControl'
 import { revalidateSettings } from './hooks/revalidateSettings'
+
+// The global is publicly readable, so secrets are restricted at field level.
+const secretFieldAccess: FieldAccess = ({ req: { user } }) => Boolean(user)
 
 export const Settings: GlobalConfig = {
   slug: 'settings',
@@ -243,6 +246,88 @@ export const Settings: GlobalConfig = {
                   admin: {
                     description: 'Message shown to visitors while maintenance mode is active.',
                   },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Integrations',
+          fields: [
+            {
+              name: 'integrations',
+              type: 'group',
+              fields: [
+                {
+                  name: 'email',
+                  type: 'group',
+                  label: 'Email (Resend)',
+                  admin: {
+                    description:
+                      'Leave a field empty to use its env variable. Without an API key in either place no email is sent; form submissions are still recorded.',
+                  },
+                  fields: [
+                    {
+                      name: 'resendApiKey',
+                      type: 'text',
+                      label: 'Resend API key',
+                      access: {
+                        read: secretFieldAccess,
+                        update: secretFieldAccess,
+                      },
+                      admin: {
+                        description: 'Falls back to RESEND_API_KEY.',
+                        placeholder: 're_xxxxxxxx',
+                      },
+                    },
+                    {
+                      name: 'fromAddress',
+                      type: 'email',
+                      label: 'From address',
+                      admin: {
+                        description: 'Falls back to EMAIL_FROM_ADDRESS.',
+                      },
+                    },
+                    {
+                      name: 'fromName',
+                      type: 'text',
+                      label: 'From name',
+                      admin: {
+                        description: 'Falls back to EMAIL_FROM_NAME.',
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: 'recaptcha',
+                  type: 'group',
+                  label: 'Invisible reCAPTCHA (v2)',
+                  admin: {
+                    description:
+                      'Leave a field empty to use its env variable. reCAPTCHA is disabled unless both the site key and the secret key are available.',
+                  },
+                  fields: [
+                    {
+                      name: 'siteKey',
+                      type: 'text',
+                      label: 'Site key',
+                      admin: {
+                        description: 'Falls back to NEXT_PUBLIC_RECAPTCHA_SITE_KEY.',
+                      },
+                    },
+                    {
+                      name: 'secretKey',
+                      type: 'text',
+                      label: 'Secret key',
+                      access: {
+                        read: secretFieldAccess,
+                        update: secretFieldAccess,
+                      },
+                      admin: {
+                        description: 'Falls back to RECAPTCHA_SECRET_KEY.',
+                      },
+                    },
+                  ],
                 },
               ],
             },

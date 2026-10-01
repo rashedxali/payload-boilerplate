@@ -2,7 +2,10 @@
 
 import React, { useState } from 'react'
 
+import { useRecaptcha } from '@/providers/Recaptcha'
+
 export const FooterNewsletter: React.FC = () => {
+  const { execute: executeRecaptcha } = useRecaptcha()
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
@@ -12,10 +15,12 @@ export const FooterNewsletter: React.FC = () => {
     setStatus('loading')
 
     try {
+      const token = await executeRecaptcha()
+
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, token }),
       })
       const data = await res.json()
 

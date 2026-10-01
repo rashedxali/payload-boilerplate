@@ -23,6 +23,7 @@ import { Providers } from '@/providers'
 import { buildOrganizationSchema } from '@/utilities/buildOrganizationSchema'
 import { getPublicAnalyticsConfig } from '@/utilities/getAnalyticsConfig'
 import { getSeoDefaults } from '@/utilities/getSeoDefaults'
+import { resolveRecaptchaConfig } from '@/utilities/getIntegrationsConfig'
 import { getCachedSettings } from '@/utilities/getSettings'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
@@ -52,7 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Analytics config={analyticsConfig} />
-        <Providers>
+        <Providers recaptchaSiteKey={resolveRecaptchaConfig(settings)?.siteKey}>
           <AdminBar
             adminBarProps={{
               preview: draft,

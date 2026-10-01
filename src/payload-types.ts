@@ -74,6 +74,7 @@ export interface Config {
     guides: Guide;
     media: Media;
     categories: Category;
+    'newsletter-subscribers': NewsletterSubscriber;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -99,6 +100,7 @@ export interface Config {
     guides: GuidesSelect<false> | GuidesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -2384,6 +2386,16 @@ export interface Guide {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers".
+ */
+export interface NewsletterSubscriber {
+  id: number;
+  email: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -2604,6 +2616,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'newsletter-subscribers';
+        value: number | NewsletterSubscriber;
       } | null)
     | ({
         relationTo: 'users';
@@ -3819,6 +3835,15 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers_select".
+ */
+export interface NewsletterSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -4289,6 +4314,38 @@ export interface Setting {
      */
     message?: string | null;
   };
+  integrations?: {
+    /**
+     * Leave a field empty to use its env variable. Without an API key in either place no email is sent; form submissions are still recorded.
+     */
+    email?: {
+      /**
+       * Falls back to RESEND_API_KEY.
+       */
+      resendApiKey?: string | null;
+      /**
+       * Falls back to EMAIL_FROM_ADDRESS.
+       */
+      fromAddress?: string | null;
+      /**
+       * Falls back to EMAIL_FROM_NAME.
+       */
+      fromName?: string | null;
+    };
+    /**
+     * Leave a field empty to use its env variable. reCAPTCHA is disabled unless both the site key and the secret key are available.
+     */
+    recaptcha?: {
+      /**
+       * Falls back to NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
+       */
+      siteKey?: string | null;
+      /**
+       * Falls back to RECAPTCHA_SECRET_KEY.
+       */
+      secretKey?: string | null;
+    };
+  };
   customCode?: {
     /**
      * Injected before </head> on the public site.
@@ -4427,6 +4484,23 @@ export interface SettingsSelect<T extends boolean = true> {
         enabled?: T;
         headline?: T;
         message?: T;
+      };
+  integrations?:
+    | T
+    | {
+        email?:
+          | T
+          | {
+              resendApiKey?: T;
+              fromAddress?: T;
+              fromName?: T;
+            };
+        recaptcha?:
+          | T
+          | {
+              siteKey?: T;
+              secretKey?: T;
+            };
       };
   customCode?:
     | T

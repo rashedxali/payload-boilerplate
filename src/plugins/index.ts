@@ -5,6 +5,7 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
+import { verifyRecaptchaHook } from '@/hooks/verifyRecaptchaHook'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { searchFields } from '@/search/fieldOverrides'
@@ -68,6 +69,11 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     redirectRelationships: ['pages'],
+    formSubmissionOverrides: {
+      hooks: {
+        beforeValidate: [verifyRecaptchaHook],
+      },
+    },
     formOverrides: {
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {

@@ -1,5 +1,4 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { resendAdapter } from '@payloadcms/email-resend'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -12,6 +11,8 @@ import { Pages } from './collections/Pages'
 import { Blogs } from './collections/Blogs'
 import { Services } from './collections/Services'
 import { Users } from './collections/Users'
+import { NewsletterSubscribers } from './collections/NewsletterSubscribers'
+import { resendOrSkipAdapter } from './email/resendOrSkipAdapter'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Settings } from './Settings/config'
@@ -65,12 +66,18 @@ export default buildConfig({
     },
     blocksAsJSON: true,
   }),
-  email: resendAdapter({
-    apiKey: process.env.RESEND_API_KEY || '',
-    defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
-    defaultFromName: process.env.EMAIL_FROM_NAME || 'Payload CMS',
-  }),
-  collections: [Pages, Blogs, Services, OurWork, Guides, Media, Categories, Users],
+  email: resendOrSkipAdapter(),
+  collections: [
+    Pages,
+    Blogs,
+    Services,
+    OurWork,
+    Guides,
+    Media,
+    Categories,
+    NewsletterSubscribers,
+    Users,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Settings],
   plugins,

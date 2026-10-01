@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
+import { useRecaptcha } from '@/providers/Recaptcha'
 import { getClientSideURL } from '@/utilities/getURL'
 import { cn } from '@/utilities/ui'
 
@@ -32,6 +33,7 @@ export const PayloadForm: React.FC<Props> = ({ className, form }) => {
   } = form
 
   const router = useRouter()
+  const { execute: executeRecaptcha } = useRecaptcha()
   const {
     control,
     formState: { errors },
@@ -59,6 +61,8 @@ export const PayloadForm: React.FC<Props> = ({ className, form }) => {
           }))
 
         try {
+          const recaptchaToken = await executeRecaptcha()
+
           const response = await fetch(`${getClientSideURL()}/api/form-submissions`, {
             body: JSON.stringify({
               form: formID,
@@ -66,6 +70,7 @@ export const PayloadForm: React.FC<Props> = ({ className, form }) => {
             }),
             headers: {
               'Content-Type': 'application/json',
+              ...(recaptchaToken ? { 'x-recaptcha-token': recaptchaToken } : {}),
             },
             method: 'POST',
           })
@@ -92,7 +97,7 @@ export const PayloadForm: React.FC<Props> = ({ className, form }) => {
 
       void submit()
     },
-    [confirmationType, formID, redirect?.url, router],
+    [confirmationType, executeRecaptcha, formID, redirect?.url, router],
   )
 
   if (hasSubmitted && confirmationType === 'message') {
