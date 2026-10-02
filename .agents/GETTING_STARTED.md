@@ -205,6 +205,7 @@ Other commands:
 | `bun run generate:types` | After any schema change |
 | `bun run payload migrate:create <name>` | Create a migration after a schema change |
 | `bun run payload migrate` | Apply pending migrations |
+| `bun run migrate:fresh` | Drop all tables and re-run every migration. Destroys all data; run only when the user asks for it |
 
 ## Finish
 

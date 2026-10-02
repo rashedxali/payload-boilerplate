@@ -346,6 +346,7 @@ The colors, fonts and tone of the website are described in the [`brand/`](brand/
 | `ADMIN_DEFAULT_USER_EMAIL and ADMIN_DEFAULT_USER_PASSWORD must both be set` | Fill in both lines in `.env`, save, and run `bun run seed` again. |
 | `Admin user ... already exists; skipping.` | Not an error. The login was created earlier; use it. |
 | An error about a missing table or relation when seeding | Run `bun run payload migrate` first, then `bun run seed`. |
+| An error saying a table or type `already exists` when running `bun run payload migrate` | The database is not empty. If it holds nothing you need, run `bun run migrate:fresh`. This **deletes everything** in that database and creates the tables again. Then run `bun run seed`. |
 | `Port 3000 is in use` | The website is already running in another Terminal window. Use that one, or stop it there with `Ctrl + C`. |
 | The page does not load | Check the Terminal still shows the website running, and that the address is `http://localhost:3000`. |
 | Forms submit but no email arrives | Check the API key **and** the from address are both set, the domain is verified in Resend, and the form in the admin panel has an email configured. The submission is still saved under **Form Submissions**. |

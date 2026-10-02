@@ -16,14 +16,15 @@ By hand:
 
 1. `cp .env.example .env` and fill in the required variables (see [Setup](#setup)).
 2. `bun install`
-3. `bun run dev` — starts the site and creates the database schema.
+3. `bun run payload migrate` — creates the database schema on a new, empty database.
 4. `bun run seed` — creates the admin user from `ADMIN_DEFAULT_USER_*`.
-5. Set up the brand in [`brand/`](brand/):
+5. `bun run dev` — starts the site.
+6. Set up the brand in [`brand/`](brand/):
    - fill in [`brand/about.md`](brand/about.md) and remove its `Status: TEMPLATE` line;
    - adjust [`brand/colors.md`](brand/colors.md) and the matching `--color-brand-*` tokens in `src/app/(frontend)/globals.css`;
    - adjust [`brand/fonts.md`](brand/fonts.md) and the font import in `src/app/(frontend)/layout.tsx`.
-6. In the admin panel, open **Settings** and set the site name, logo, favicon and default SEO values.
-7. Optional: add Resend and reCAPTCHA keys under **Settings → Integrations**.
+7. In the admin panel, open **Settings** and set the site name, logo, favicon and default SEO values.
+8. Optional: add Resend and reCAPTCHA keys under **Settings → Integrations**.
 
 From here, ask the agent for sections and post types. It will ask how the data should be modelled before it writes code.
 
@@ -62,14 +63,18 @@ From here, ask the agent for sections and post types. It will ask how the data s
    - **Resend email** (`RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME`): without an API key and a from address no email is sent; form submissions and newsletter subscribers are still recorded in the CMS.
    - **Invisible reCAPTCHA v2** (`NEXT_PUBLIC_RECAPTCHA_SITE_KEY`, `RECAPTCHA_SECRET_KEY`): disabled unless both keys are set; forms work normally without it.
 
-3. Install and run:
+3. Install dependencies and create the database schema:
 
    ```bash
    bun install
-   bun run dev
+   bun run payload migrate
    ```
 
-4. Seed the admin user (optional). The database schema must exist first, so run this after `bun run dev` has started once or after `bun run payload migrate`:
+   `src/migrations/` holds a single baseline migration that creates every table, so this works on a new, empty database. Run it before the first `bun run dev`: in development Payload pushes the schema on startup, and a later `migrate` then fails with "already exists".
+
+   If the database already has tables and you want to start over, use `bun run migrate:fresh` instead. It **drops every table** in the database `DATABASE_URL` points at and re-runs all migrations, so all data is lost. Check `DATABASE_URL` first.
+
+4. Seed the admin user (optional). The database schema must exist first:
 
    ```bash
    bun run seed
@@ -77,7 +82,13 @@ From here, ask the agent for sections and post types. It will ask how the data s
 
    This creates a user from `ADMIN_DEFAULT_USER_EMAIL` / `ADMIN_DEFAULT_USER_PASSWORD`. It is safe to re-run: an existing user with that email is left untouched.
 
-5. Open:
+5. Start the site:
+
+   ```bash
+   bun run dev
+   ```
+
+6. Open:
    - Frontend: `http://localhost:3000`
    - Admin: `http://localhost:3000/admin` — log in with the seeded user, or create your first user on first visit
 
@@ -92,6 +103,8 @@ From here, ask the agent for sections and post types. It will ask how the data s
 | `bun run generate:importmap` | Regenerate admin import map after custom admin components change |
 | `bun run payload migrate:create` | Create a DB migration (Postgres) |
 | `bun run payload migrate` | Run pending migrations |
+| `bun run payload migrate:status` | Show which migrations have run |
+| `bun run migrate:fresh` | **Drop all tables** and re-run every migration (destroys all data) |
 | `bun run seed` | Create the default admin user from `ADMIN_DEFAULT_USER_*` |
 | `bun run lint` | ESLint |
 
